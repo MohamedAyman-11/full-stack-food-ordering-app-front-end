@@ -1,6 +1,6 @@
 import { Pages, Routes } from "@/constants";
 import { NavLink } from "react-router-dom";
-import { Button, buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "./button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
