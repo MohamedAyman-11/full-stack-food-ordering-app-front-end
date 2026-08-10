@@ -1,4 +1,5 @@
 import { Routes } from "@/constants";
+import Home from "@/pages/Home";
 import Layout from "@/pages/Layout";
 import {
   createBrowserRouter,
@@ -11,7 +12,7 @@ const Router = () => {
     createRoutesFromElements(
       <>
         <Route path={Routes.ROOT} element={<Layout />}>
-          <Route index element={<h2>HOME PAGE</h2>} />
+          <Route index element={<Home />} />
         </Route>
       </>,
     ),
