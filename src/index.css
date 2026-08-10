@@ -130,9 +130,7 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * {@apply border-border;}
 
   html {
     font-family: var(--font-sans);
@@ -143,14 +141,20 @@
   }
 }
 
-@utility container {
-  @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-32;
-}
+@layer components {
+  .active {
+    @apply text-primary;
+  }
 
-@utility section-gap {
-  @apply my-8 md:my-16;
+  .container {
+    @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-32;
+  }
 }
-
-@utility element-center {
-  @apply flex items-center justify-center;
+@layer utilities{
+  .active{
+    @apply text-primary!
+  }
+  .section-gap {
+    @apply my-8 md:my-16;
+  }
 }
