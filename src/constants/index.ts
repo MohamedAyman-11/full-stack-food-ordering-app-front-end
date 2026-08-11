@@ -30,4 +30,6 @@ export enum Pages {
   ORDERS = "orders",
   NEW = "new",
   EDIT = "edit",
+  ABOUT = "about",
+  CONTACT = "contact",
 }
