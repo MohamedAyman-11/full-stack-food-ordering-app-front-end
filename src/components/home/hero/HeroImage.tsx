@@ -4,7 +4,7 @@ const HeroImage = () => {
       <img
         src="/images/hero.webp"
         alt="Hero image"
-        className="object-contain h-full mx-auto shadow-md rounded-full "
+        className="object-contain h-full mx-auto  rounded-full "
       />
     </div>
   );
