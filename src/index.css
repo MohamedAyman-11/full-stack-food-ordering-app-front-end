@@ -139,6 +139,9 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+  img {
+    @apply select-none
+  }
 }
 
 @layer components {

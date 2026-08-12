@@ -23,7 +23,7 @@ export enum Pages {
   LOGIN = "signin",
   Register = "signup",
   FORGOT_PASSWORD = "forgot-password",
-  RESET_PASSWORD="reset-password",
+  RESET_PASSWORD = "reset-password",
   CATEGORIES = "categories",
   MENU_ITEMS = "menu-items",
   USERS = "users",
@@ -32,4 +32,7 @@ export enum Pages {
   EDIT = "edit",
   ABOUT = "about",
   CONTACT = "contact",
+}
+export enum Query_Keys {
+  CATEGORIES = "Categories",
 }
