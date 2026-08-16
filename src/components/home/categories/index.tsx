@@ -1,16 +1,15 @@
 import MainHeading from "@/components/ui/MainHeading";
 import CategoryList from "./CategoryList";
+import SectionWrapper from "@/components/ui/SectionWrapper";
 
 const Categories = () => {
   return (
-    <section className="best-seller section-gap">
-      <div className="container">
-        <div className="text-center">
-          <MainHeading subTitle="Explore" title="Categories" />
-        </div>
-        <CategoryList />
+    <SectionWrapper>
+      <div className="text-center">
+        <MainHeading subTitle="Explore" title="Categories" />
       </div>
-    </section>
+      <CategoryList />
+    </SectionWrapper>
   );
 };
 

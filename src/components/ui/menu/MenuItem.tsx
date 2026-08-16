@@ -1,32 +1,31 @@
-import AddToChart from "@/components/home/best-seller/AddToChart";
+import AddToChart from "@/components/ui/menu/AddToChart";
+import type { Product } from "@/interfaces";
 import { formatCurrency } from "@/lib/functions";
 
 interface Props {
-  item: {
-    id: `${string}-${string}-${string}-${string}-${string}`;
-    image: string;
-    title: string;
-    description: string;
-    price: number;
-  };
+  product: Product;
 }
-const MenuItem = ({ item }: Props) => {
+const MenuItem = ({ product }: Props) => {
   return (
     <li
       className="p-6 rounded-lg text-center
-    group hover:bg-white hover:shadow-md hover:shadow-black/25 transition-all"
+    group hover:bg-white shadow-md hover:shadow-md hover:shadow-black/25 transition-all"
     >
       <div className="relative w-48 h-48 mx-auto">
-        <img src={item.image} className="object-cover" alt={item.title} />
+        <img
+          src={product.image.url}
+          className="object-cover"
+          alt={product.name}
+        />
       </div>
-      <div className="flex items-center justify-between mb-4">
-        <h4 className="font-semibold text-xl my-3">{item.title}</h4>
-        <strong className="text-accent">{formatCurrency(item.price)}</strong>
+      <div className="flex products-center justify-between mb-4">
+        <h4 className="font-semibold text-xl my-3">{product.name}</h4>
+        <strong className="text-accent">{formatCurrency(product.price)}</strong>
       </div>
       <p className="text-gray-500 text-sm line-clamp-3 mb-6">
-        {item.description}
+        {product.description}
       </p>
-      <AddToChart item={item} />
+      <AddToChart productId={product.id} />
     </li>
   );
 };

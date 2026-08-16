@@ -1,11 +1,7 @@
 import MenuList from "@/components/menu";
 
 const Menu = () => {
-  return (
-    <div>
-      <MenuList />
-    </div>
-  );
+  return <MenuList />;
 };
 
 export default Menu;

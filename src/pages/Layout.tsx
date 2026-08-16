@@ -1,6 +1,7 @@
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { Outlet } from "react-router-dom";
+import { Toaster } from "../../node_modules/react-hot-toast/src/components/toaster";
 
 const Layout = () => {
   return (
@@ -10,6 +11,7 @@ const Layout = () => {
         <Outlet />
       </div>
       <Footer />
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };

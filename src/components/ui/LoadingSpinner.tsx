@@ -4,7 +4,7 @@ interface Props {
 }
 const LoadingSpinner = ({ size }: Props) => {
   return (
-    <div>
+    <div className="flex items-center justify-center">
       <Spinner className={`${size} text-primary`} />
     </div>
   );

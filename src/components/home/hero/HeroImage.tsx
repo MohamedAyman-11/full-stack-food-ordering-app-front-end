@@ -1,10 +1,13 @@
-const HeroImage = () => {
+interface Props {
+  image: string;
+}
+const HeroImage = ({ image }: Props) => {
   return (
-    <div className="relative h-90 hidden md:block ">
+    <div className="relative h-180 hidden md:block mx-auto">
       <img
-        src="/images/hero.webp"
+        src={image}
         alt="Hero image"
-        className="object-contain h-full mx-auto  rounded-full "
+        className="object-contain h-full mx-aut select-none"
       />
     </div>
   );

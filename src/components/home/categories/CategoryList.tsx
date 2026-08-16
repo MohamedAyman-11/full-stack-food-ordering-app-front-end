@@ -14,7 +14,7 @@ const CategoryList = () => {
   const { data, isPending } = useGetCategories();
   if (isPending) return <Loading />;
   return (
-    <div className="mt-7">
+    <div className="mt-7 ">
       <Carousel
         opts={{
           align: "start",
@@ -26,7 +26,7 @@ const CategoryList = () => {
           <CarouselNext className="static translate-y-0 cursor-pointer hover:text-primary disabled:hover:text-muted-foreground" />
         </div>
         <CarouselContent className="mt-5">
-          {data.categories.length > 0 ? (
+          {data && data.categories.length > 0 ? (
             data.categories.map((category: Category) => (
               <CarouselItem
                 key={category.id}
@@ -37,7 +37,7 @@ const CategoryList = () => {
             ))
           ) : (
             <div className="min-h-49.5 flex items-center justify-center">
-              <h3 className="text-2xl">No Categories Found !</h3>
+              <h3 className="text-2xl"> No Categories Found !</h3>
             </div>
           )}
         </CarouselContent>
