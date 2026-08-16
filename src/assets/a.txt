@@ -1,0 +1,7 @@
+🍕 Pizzas
+🍝 Pasta
+🍟 Sides
+🥤 Drinks
+🍰 Desserts
+🍔 Burgers
+🥗 Salads
