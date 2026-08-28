@@ -1,13 +1,17 @@
-import { Field, FieldLabel } from "./field";
+import { Field, FieldError, FieldLabel } from "./field";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 import { Eye, EyeOff } from "lucide-react";
 import { buttonVariants } from "./button";
 import type { InputType } from "@/interfaces";
 import { useState } from "react";
+import type { UseFormRegisterReturn } from "react-hook-form";
 interface Props {
   input: InputType;
+  register?: UseFormRegisterReturn;
+  error?: string;
+  readonly?: boolean;
 }
-const InputField = ({ input }: Props) => {
+const InputField = ({ input, register, error, readonly = false }: Props) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onTogglePassword = () => setShowPassword((prev) => !prev);
   return (
@@ -19,10 +23,14 @@ const InputField = ({ input }: Props) => {
         {input.label}
       </FieldLabel>
 
-      <InputGroup className="h-11 rounded-lg border-slate-200 bg-white shadow-none transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
+      <InputGroup
+        className={` h-11 rounded-lg border-slate-200 bg-white shadow-none transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10
+       ${error ? "border-destructive " : "border-slate-200"}`}
+      >
         <InputGroupInput
+          readOnly={readonly}
+          disabled={readonly}
           id={input.id}
-          name={input.name}
           placeholder={input.placeholder}
           type={
             input.type === "password"
@@ -31,7 +39,8 @@ const InputField = ({ input }: Props) => {
                 : "password"
               : input.type
           }
-          className="text-sm placeholder:text-slate-400 placeholder:select-none"
+          className={`text-sm placeholder:text-slate-400 placeholder:select-none rounded-lg ${readonly ? "bg-gray-100" : "bg-white"}`}
+          {...register}
         />
 
         {input.type === "password" ? (
@@ -44,6 +53,7 @@ const InputField = ({ input }: Props) => {
           </InputGroupAddon>
         ) : null}
       </InputGroup>
+      {error && <FieldError>{error}</FieldError>}
     </Field>
   );
 };

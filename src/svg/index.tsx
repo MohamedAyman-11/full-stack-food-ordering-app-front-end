@@ -1,4 +1,4 @@
-import type { SVGProps } from "react";
+import type { SVGProps } from 'react';
 
 const GithubIcon = ({ ...reset }: SVGProps<SVGSVGElement>) => {
   return (
@@ -18,5 +18,4 @@ const LinkedInIcon = ({ ...reset }: SVGProps<SVGSVGElement>) => {
     </div>
   );
 };
-
 export { GithubIcon, LinkedInIcon };

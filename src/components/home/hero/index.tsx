@@ -83,7 +83,7 @@ const Hero = () => {
             ))}
           </CarouselContent>
           {/* Dots */}
-          <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2">
+          <div className="absolute -bottom-10 md:bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2">
             {HeroData.map((item, index) => (
               <button
                 key={item.id}

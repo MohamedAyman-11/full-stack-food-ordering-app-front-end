@@ -5,7 +5,9 @@ const index = () => {
   return (
     <SectionWrapper>
       <div className="text-center">
-        <h2 className="text-primary font-bold text-5xl italic">Register</h2>
+        <h2 className="text-primary font-bold text-5xl italic">
+          Forgot password
+        </h2>
       </div>
       <ForgotPasswordForm />
     </SectionWrapper>

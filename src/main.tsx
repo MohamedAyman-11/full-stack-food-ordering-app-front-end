@@ -9,7 +9,10 @@ import { store } from "./app/store.ts";
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
+    <GoogleOAuthProvider
+      clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}
+      locale="en"
+    >
       <StrictMode>
         <QueryClientProvider client={queryClient}>
           <App />

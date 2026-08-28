@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const CartIcon = () => {
   const cart = useAppSelector(getCartItems);
   return (
-    <div className="mx-4 rounded-xl  px-2">
+    <div className="px-3 rounded-xl">
       <Link to={`/${Routes.CART}`} className="relative group cursor-pointer">
         <span className="absolute -top-2 inset-s-6 w-5 h-5 text-sm bg-primary rounded-full text-white text-center">
           {getCartQuantity(cart)}

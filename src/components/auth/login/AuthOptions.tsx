@@ -1,27 +1,34 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Pages, Routes } from "@/constants";
-import React, { useState } from "react";
+import React, { useState, type Dispatch, type SetStateAction } from "react";
 import { Link } from "react-router-dom";
-
-const AuthOptions = () => {
-  const [remember, setRemember] = useState<boolean>(false);
+interface Props {
+  remember: boolean;
+  setRemember: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
+}
+const AuthOptions = ({ remember, setRemember, isLoading }: Props) => {
   return (
     <div className="flex items-center justify-between my-5">
       <Field
         orientation="horizontal"
         className="flex gap-2 w-fit "
-        onClick={() => setRemember((prev) => !prev)}
+        onClick={() => {
+          if (isLoading) return;
+          setRemember((prev) => !prev);
+        }}
       >
         <Checkbox
+          disabled={isLoading}
           id={"remember_me"}
           name={"remember_me"}
           checked={remember}
-          className={"cursor-pointer"}
+          className={`${isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
         />
         <FieldLabel
           htmlFor={"remember_me"}
-          className="font-medium text-accent w-fit cursor-pointer"
+          className={`font-medium text-accent w-fit ${isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
         >
           Remember me
         </FieldLabel>

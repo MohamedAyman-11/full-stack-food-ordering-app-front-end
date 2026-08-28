@@ -160,11 +160,14 @@
   .section-gap {
     @apply my-8 md:my-16;
   }
+  aside .active{
+    @apply text-primary! bg-primary/5
+
+  }
 }
 .hero {
   min-height: calc(100vh - 95px);
   display: flex;
   align-items: center;
 }
-
 

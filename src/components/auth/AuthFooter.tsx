@@ -1,4 +1,4 @@
-import GoogleLoginButton from "@/components/ui/GoogleLoginButton";
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import { Routes } from "@/constants";
 import { Link } from "react-router-dom";
 interface Props {

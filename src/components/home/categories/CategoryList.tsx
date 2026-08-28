@@ -26,8 +26,8 @@ const CategoryList = () => {
           <CarouselNext className="static translate-y-0 cursor-pointer hover:text-primary disabled:hover:text-muted-foreground" />
         </div>
         <CarouselContent className="mt-5">
-          {data && data.categories.length > 0 ? (
-            data.categories.map((category: Category) => (
+          {data && data.length > 0 ? (
+            data.map((category: Category) => (
               <CarouselItem
                 key={category.id}
                 className=" basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6"

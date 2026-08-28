@@ -15,7 +15,7 @@ export interface Product {
   slug: string;
   image: ImageType;
   price: number;
-  discount: number | null;
+  discount: number;
   description: string;
   isAvailable: boolean;
   created_at: Date;
@@ -54,3 +54,33 @@ export type InputType = {
   id: string;
   label: string;
 };
+export interface LoginUserData {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+export interface SignupUserData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  googleId?: string;
+  firstName: string;
+  lastName: string;
+  provider: string;
+  role: string;
+  picture?: { url: string; public_id: string };
+  primaryPhone?: string;
+  secondaryPhone?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  city?: string;
+  country?: string;
+  street?: string;
+  postalCode?: string;
+}

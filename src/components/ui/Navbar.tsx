@@ -1,49 +1,46 @@
-import { Pages, Routes } from "@/constants";
-import { Link, NavLink } from "react-router-dom";
-import { Button, buttonVariants } from "./button";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
-import LoginButton from "../layout/LoginButton";
+import { Routes } from '@/constants';
+import { NavLink } from 'react-router-dom';
+import { Button } from './button';
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import useGetCurrentUser from '@/hooks/auth/useGetCurrentUser';
+import LogoutButton from '../layout/LogoutButton';
+import AuthButtons from '../layout/AuthButtons';
 
 const NAVBAR_DATA = [
   {
     id: crypto.randomUUID(),
-    title: "Home",
+    title: 'Home',
     path: Routes.ROOT,
   },
   {
     id: crypto.randomUUID(),
-    title: "Menu",
-    path: Routes.MENU,
+    title: 'Menu',
+    path: `/${Routes.MENU}`,
   },
   {
     id: crypto.randomUUID(),
-    title: "About",
-    path: Routes.ABOUT,
+    title: 'About',
+    path: `/${Routes.ABOUT}`,
   },
   {
     id: crypto.randomUUID(),
-    title: "Contact",
-    path: Routes.CONTACT,
+    title: 'Contact',
+    path: `/${Routes.CONTACT}`,
   },
 ];
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
-
+  const { data: user } = useGetCurrentUser();
   return (
     <>
-      <Button
-        variant="secondary"
-        size="lg"
-        className="lg:hidden cursor-pointer"
-        onClick={() => setOpenMenu(true)}
-      >
+      <Button variant="secondary" size="lg" className="lg:hidden cursor-pointer" onClick={() => setOpenMenu(true)}>
         <Menu className="w-6! h-6!" />
       </Button>
       <ul
-        className={`border border-black/5 lg:border-none rounded-none lg:rounded-full lg:bg-white/70 lg:p-2 lg:shadow-sm bg-white fixed lg:static ${
-          openMenu ? "left-0 z-55" : "-left-full"
+        className={`lg:p-0 bg-white fixed lg:static ${
+          openMenu ? 'left-0 z-55' : '-left-full'
         } top-0 px-10 py-20  bg-background lg:bg-transparent transition-all
          duration-200 h-full lg:h-auto flex-col lg:flex-row w-full lg:w-auto flex items-start lg:items-center gap-10`}
       >
@@ -62,15 +59,13 @@ const Navbar = () => {
             <NavLink
               to={link.path}
               onClick={() => setOpenMenu(false)}
-              className={`block text-accent hover:text-primary transition-colors font-semibold text-xl`}
+              className={` block  text-accent hover:text-primary transition-colors font-semibold text-lg`}
             >
               {link.title}
             </NavLink>
           </li>
         ))}
-        <li>
-          <LoginButton setOpenMenu={setOpenMenu} />
-        </li>
+        <li>{user ? <LogoutButton setOpenMenu={setOpenMenu} /> : <AuthButtons />}</li>
       </ul>
     </>
   );
