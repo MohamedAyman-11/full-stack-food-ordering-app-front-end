@@ -1,4 +1,4 @@
-import AccountDetailsComponent from "@/components/profile/account-details";
+import AccountDetailsComponent from '@/components/Dashboard/account-details';
 const AccountDetails = () => {
   return <AccountDetailsComponent />;
 };

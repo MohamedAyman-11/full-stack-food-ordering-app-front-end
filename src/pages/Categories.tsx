@@ -1,4 +1,4 @@
-import CategoriesComponent from "@/components/profile/categories/index";
+import CategoriesComponent from '@/components/Dashboard/categories/index';
 
 const Categories = () => {
   return <CategoriesComponent />;

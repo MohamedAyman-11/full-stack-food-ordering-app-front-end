@@ -1,4 +1,4 @@
-import UpdateUserComponent from '@/components/profile/users/update/index';
+import UpdateUserComponent from '@/components/Dashboard/users/update/index';
 const UpdateUser = () => {
   return <UpdateUserComponent />;
 };

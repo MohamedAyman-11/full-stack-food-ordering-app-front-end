@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
-import LoadingButton from "@/components/ui/LoadingButton";
-import { Messages } from "@/constants";
-import useDeleteCategory from "@/hooks/categories/useDeleteCategory";
-import { axiosErrorHandler } from "@/lib/functions";
-import { Trash } from "lucide-react";
-import toast from "react-hot-toast";
+import { Button } from '@/components/ui/button';
+import LoadingButton from '@/components/ui/LoadingButton';
+import { Messages } from '@/constants';
+import { axiosErrorHandler } from '@/lib/functions';
+import { Trash } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 import {
   Dialog,
@@ -15,21 +14,23 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { useState } from "react";
+} from '@/components/ui/dialog';
+import { useState } from 'react';
+import useDeleteProduct from '@/hooks/products/useDeleteProduct';
 
 interface Props {
   id: string;
 }
 
-const DeleteCategory = ({ id }: Props) => {
-  const { isPending, mutateAsync } = useDeleteCategory();
-  const [open, setOpen] = useState<boolean>(false);
+const DeleteProduct = ({ id }: Props) => {
+  const { isPending, mutateAsync } = useDeleteProduct();
+
+  const [open, setOpen] = useState(false);
+
   const onDeleteHandler = async () => {
     try {
       await mutateAsync(id);
       setOpen(false);
-      toast.success(Messages.CATEGORY_DELETED);
     } catch (error) {
       toast.error(axiosErrorHandler(error));
     }
@@ -59,25 +60,20 @@ const DeleteCategory = ({ id }: Props) => {
         <div className="p-6">
           <DialogHeader className="space-y-4">
             <div className="space-y-2">
-              <DialogTitle className="text-xl font-semibold tracking-tight">
-                Delete this category?
-              </DialogTitle>
+              <DialogTitle className="text-xl font-semibold tracking-tight">Delete this product?</DialogTitle>
 
               <DialogDescription className="text-sm leading-6 text-muted-foreground">
-                You&apos;re about to permanently delete this category. This
-                action cannot be undone, and all associated data will be lost.
+                You&apos;re about to permanently delete this product. This action cannot be undone, and all associated
+                data will be lost.
               </DialogDescription>
             </div>
           </DialogHeader>
 
           <div className="mt-6 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
-            <p className="text-sm font-medium text-destructive">
-              This action is permanent.
-            </p>
+            <p className="text-sm font-medium text-destructive">This action is permanent.</p>
 
             <p className="mt-1 text-xs leading-5 text-muted-foreground">
-              Please make sure you want to continue before deleting this
-              category.
+              Please make sure you want to continue before deleting this product.
             </p>
           </div>
         </div>
@@ -85,11 +81,7 @@ const DeleteCategory = ({ id }: Props) => {
         <DialogFooter className="border-t bg-muted/30 px-6 py-4">
           <DialogClose
             render={
-              <Button
-                variant="outline"
-                type="button"
-                className="cursor-pointer"
-              >
+              <Button variant="outline" type="button" className="cursor-pointer">
                 Cancel
               </Button>
             }
@@ -112,4 +104,4 @@ const DeleteCategory = ({ id }: Props) => {
   );
 };
 
-export default DeleteCategory;
+export default DeleteProduct;

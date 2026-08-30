@@ -10,7 +10,7 @@ const index = () => {
   const { data, isPending } = useGetCategories();
   if (isPending) return <Loading />;
   return (
-    <div className="w-full  lg:pl-8">
+    <div className="w-full lg:pl-8">
       <div className="flex items-center justify-between">
         <h3 className="text-xl text-start font-semibold tracking-tight text-primary">Categories</h3>
         <Button size={'lg'} className={'cursor-pointer px-6! py-2!'} onClick={() => setShowForm(true)}>

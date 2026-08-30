@@ -43,7 +43,11 @@ const CustomersList = () => {
                 <TableRow key={user.id}>
                   <TableCell className="py-3 px-2 flex items-center mr-5">
                     {user.picture ? (
-                      <img src={user.picture.url} alt="user picture" className="w-10 h-10 rounded-full mr-3" />
+                      <img
+                        src={user.picture.url}
+                        alt="user picture"
+                        className="w-10 h-10 object-cover rounded-full mr-3"
+                      />
                     ) : (
                       <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
                         {user.firstName.charAt(0)}

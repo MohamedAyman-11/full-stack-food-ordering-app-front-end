@@ -1,4 +1,4 @@
-import SizesComponent from "@/components/profile/sizes/index";
+import SizesComponent from '@/components/Dashboard/sizes/index';
 
 const Sizes = () => {
   return <SizesComponent />;

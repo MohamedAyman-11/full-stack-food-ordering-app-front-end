@@ -1,4 +1,3 @@
-import useGetUsers from '@/hooks/admin/useGetUsers';
 import CustomersList from './CustomersList';
 
 const index = () => {

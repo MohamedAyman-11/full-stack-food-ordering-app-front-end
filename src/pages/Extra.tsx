@@ -1,4 +1,4 @@
-import ExtrasComponent from "@/components/profile/extras/index";
+import ExtrasComponent from '@/components/Dashboard/extras/index';
 
 const Extras = () => {
   return <ExtrasComponent />;

@@ -1,4 +1,4 @@
-import UpdateCategoryComponent from "@/components/profile/categories/update/index";
+import UpdateCategoryComponent from '@/components/Dashboard/categories/update/index';
 
 const UpdateCategory = () => {
   return <UpdateCategoryComponent />;

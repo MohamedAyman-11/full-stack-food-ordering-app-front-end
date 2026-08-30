@@ -52,6 +52,8 @@ export enum Query_Keys {
   CATEGORY = 'Category',
   ADMIN_USERS = 'AdminUsers',
   ADMIN_USER = 'AdminUser',
+  CATEGORY_OPTIONS = 'CategoryOptions',
+  PRODUCTS = 'Products',
 }
 export enum Messages {
   ADDED_TO_CART = 'Product added to cart successfully.',
@@ -73,6 +75,8 @@ export enum Messages {
   CATEGORY_UPDATED = 'Category updated successfully. 🎉',
   ADMIN_USER_DELETED = 'User deleted successfully. 🎉',
   ADMIN_USER_UPDATED = 'User updated successfully. 🎉',
+  PRODUCT_CREATED = 'Product created successfully. 🎉',
+  PRODUCT_DELETED = 'Product deleted successfully. 🎉',
 }
 export const CheckoutInputs: InputType[] = [
   {

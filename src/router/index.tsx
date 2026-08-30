@@ -21,6 +21,7 @@ import Categories from '@/pages/Categories';
 import UpdateCategory from '@/pages/UpdateCategory';
 import UpdateUser from '@/pages/UpdateUser';
 import Users from '@/pages/Users';
+import Products from '@/pages/Products';
 
 const Router = () => {
   const { data: user, isLoading } = useGetCurrentUser();
@@ -107,7 +108,7 @@ const Router = () => {
           <Route path={`${Pages.CATEGORIES}/:id`} element={<UpdateCategory />} />
           <Route path={`${Pages.SIZES}`} element={<Sizes />} />
           <Route path={`${Pages.EXTRAS}`} element={<Extras />} />
-          <Route path={`${Pages.ITEMS}`} element={<h1>ITEMS</h1>} />
+          <Route path={`${Pages.ITEMS}`} element={<Products />} />
           <Route path={`${Pages.CUSTOMERS}`} element={<Users />} />
           <Route path={`${Pages.CUSTOMERS}/:id`} element={<UpdateUser />} />
           <Route path={`${Pages.ORDERS}`} element={<h1>ORDERS</h1>} />

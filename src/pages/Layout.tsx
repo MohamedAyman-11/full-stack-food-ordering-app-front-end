@@ -16,7 +16,7 @@ const Layout = () => {
         reverseOrder={false}
         toastOptions={{
           style: {
-            fontWeight: 500,
+            fontWeight: 600,
           },
         }}
       />

@@ -1,11 +1,6 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Plus, Trash } from "lucide-react";
-import { type Dispatch, type SetStateAction } from "react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Plus, Trash } from 'lucide-react';
+import { type Dispatch, type SetStateAction } from 'react';
 import {
   Select,
   SelectContent,
@@ -14,11 +9,11 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 
 interface Props {
-  type: "extra" | "size";
+  type: 'extra' | 'size';
   data: {
     name: string;
     id: string;
@@ -36,7 +31,7 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
       return [
         ...prev,
         {
-          itemId: "",
+          itemId: '',
           id: crypto.randomUUID(),
         },
       ];
@@ -44,9 +39,7 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
   };
 
   const onChangeSelect = (value: string, id: string) => {
-    setState((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, itemId: value } : item)),
-    );
+    setState((prev) => prev.map((item) => (item.id === id ? { ...item, itemId: value } : item)));
   };
 
   const onDelete = (id: string) => {
@@ -54,13 +47,9 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
   };
   return (
     <Accordion defaultValue={[{ type }]}>
-      <AccordionItem id="size" className={"bg-gray-100 rounded-xl px-3"}>
-        <AccordionTrigger
-          className={
-            "hover:no-underline! text-lg font-semibold items-center cursor-pointer py-3"
-          }
-        >
-          {type === "extra" ? "Extras" : "Sizes"}
+      <AccordionItem id="size" className={'bg-gray-100 rounded-xl px-3'}>
+        <AccordionTrigger className={'hover:no-underline! text-lg font-semibold items-center cursor-pointer py-3'}>
+          {type === 'extra' ? 'Extras' : 'Sizes'}
         </AccordionTrigger>
         <AccordionContent>
           {state.length > 0 && (
@@ -93,8 +82,8 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
                     />
                     <Button
                       type="button"
-                      variant={"destructive"}
-                      className={"cursor-pointer min-w-12"}
+                      variant={'destructive'}
+                      className={'cursor-pointer min-w-12'}
                       onClick={() => onDelete(el.id)}
                     >
                       <Trash />
@@ -107,13 +96,13 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
           <Button
             onClick={onAddNewItemHandler}
             type="button"
-            size={"lg"}
+            size={'lg'}
             className={
-              "cursor-pointer w-full bg-white border border-border text-black transition-all duration-300 hover:bg-gray-200"
+              'cursor-pointer w-full bg-white border border-border text-black transition-all duration-300 hover:bg-gray-200'
             }
           >
             <Plus />
-            Add {type === "extra" ? "Extras" : "Sizes"}
+            Add {type === 'extra' ? 'Extras' : 'Sizes'}
           </Button>
         </AccordionContent>
       </AccordionItem>
@@ -124,7 +113,7 @@ const CustomAccordion = ({ data, type, state, setState }: Props) => {
 export default CustomAccordion;
 
 interface SelectProps {
-  type: "extra" | "size";
+  type: 'extra' | 'size';
   onChangeSelect: (value: string | null) => void;
   selectedItem: string | null;
   data: {
@@ -133,17 +122,12 @@ interface SelectProps {
   }[];
 }
 
-const CustomSelect = ({
-  data,
-  onChangeSelect,
-  selectedItem,
-  type,
-}: SelectProps) => {
+const CustomSelect = ({ data, onChangeSelect, selectedItem, type }: SelectProps) => {
   const item = data.find((el) => el.id === selectedItem);
   return (
     <Select value={selectedItem} onValueChange={onChangeSelect}>
       <SelectTrigger className="w-full  border-gray-300! ">
-        <SelectValue>{item?.name || "Select..."}</SelectValue>
+        <SelectValue>{item?.name || 'Select...'}</SelectValue>
       </SelectTrigger>
       <SelectContent
         side="bottom"
@@ -158,7 +142,7 @@ const CustomSelect = ({
           duration-300`}
       >
         <SelectGroup>
-          <SelectLabel>{type === "extra" ? "Extras" : "Sizes"}</SelectLabel>
+          <SelectLabel>{type === 'extra' ? 'Extras' : 'Sizes'}</SelectLabel>
           {data.length > 0 ? (
             data.map((item) => (
               <SelectItem
@@ -181,15 +165,13 @@ const CustomSelect = ({
               data-[selected]:[&>svg]:text-white!
 
               [&>span]:text-inherit!
-`}
+                  `}
               >
                 {item.name}
               </SelectItem>
             ))
           ) : (
-            <h2 className="p-2">
-              No {type === "extra" ? "extras" : "sizes"} found{" "}
-            </h2>
+            <h2 className="p-2">No {type === 'extra' ? 'extras' : 'sizes'} found </h2>
           )}
         </SelectGroup>
       </SelectContent>

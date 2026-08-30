@@ -1,4 +1,4 @@
-import UpdatePassword from "@/components/profile/update-password";
+import UpdatePassword from '@/components/Dashboard/update-password';
 const AccountDetails = () => {
   return <UpdatePassword />;
 };
