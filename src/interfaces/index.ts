@@ -14,8 +14,8 @@ export interface Product {
   name: string;
   slug: string;
   image: ImageType;
-  price: number;
-  discount: number;
+  price: string;
+  discount: string;
   description: string;
   isAvailable: boolean;
   created_at: Date;

@@ -151,6 +151,8 @@ interface SelectProps {
 
 const CustomSelect = ({ data, onChangeSelect, selectedItem, type }: SelectProps) => {
   const item = data.find((el) => el.id === selectedItem);
+  console.log(item);
+
   return (
     <Select value={selectedItem} onValueChange={onChangeSelect}>
       <SelectTrigger className={`w-full  border-gray-300! min-h-[44px!] py-4!`}>

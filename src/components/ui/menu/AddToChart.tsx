@@ -1,9 +1,9 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { ShoppingCart } from "lucide-react";
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { ShoppingCart } from 'lucide-react';
 
-import ModalContent from "@/components/ui/menu/ModalContent";
-import { useState } from "react";
+import ModalContent from '@/components/ui/menu/ModalContent';
+import { useState } from 'react';
 interface Props {
   productId: string;
 }
@@ -15,11 +15,12 @@ const AddToCart = ({ productId }: Props) => {
         render={
           <Button
             variant="outline"
-            className={`${buttonVariants({ size: "lg" })} rounded-full! text-white! px-8! cursor-pointer! py-5`}
+            className={`${buttonVariants({ size: 'lg' })} rounded-2xl!
+             text-white! px-5! cursor-pointer! py-3`}
           />
         }
       >
-        Add To Cart <ShoppingCart className="size-4.5" />
+        <ShoppingCart className="size-5 stroke-2" />
       </DialogTrigger>
       <ModalContent id={productId} open={open} setOpen={setOpen} />
     </Dialog>

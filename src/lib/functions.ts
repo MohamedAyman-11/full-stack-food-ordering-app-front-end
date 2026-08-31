@@ -1,19 +1,16 @@
-import type { AxiosError } from "axios";
-import axios from "axios";
+import axios from 'axios';
 
-export const formatCurrency = (
-  amount: number,
-  currency: string = "USD",
-  locale: string = "en-US",
-): string => {
+export const formatCurrency = (amount: number, currency: string = 'USD', locale: string = 'en-US'): string => {
   return new Intl.NumberFormat(locale, {
-    style: "currency",
+    style: 'currency',
     currency,
   }).format(amount);
 };
 
 export const axiosErrorHandler = (error: unknown) => {
-  return axios.isAxiosError(error)
-    ? error.response?.data?.message || error.message
-    : "An unexpected error occurred";
+  return axios.isAxiosError(error) ? error.response?.data?.message || error.message : 'An unexpected error occurred';
+};
+
+export const getPriceAfterDiscount = (price: number, discount: number) => {
+  return price - (price * discount) / 100;
 };

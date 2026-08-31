@@ -1,5 +1,5 @@
-import type { Product } from "@/interfaces";
-import MenuItem from "./MenuItem";
+import type { Product } from '@/interfaces';
+import ProductCard from '@/components/menu/ProductCard';
 
 interface Props {
   products: Product[];
@@ -7,11 +7,15 @@ interface Props {
 const Menu = ({ products }: Props) => {
   return (
     <div className="mt-7">
-      <ul className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((product) => (
-          <MenuItem product={product} key={product.id} />
-        ))}
-      </ul>
+      {products.length > 0 ? (
+        <ul className="grid grid-col-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+          {products.map((product) => (
+            <ProductCard product={product} key={product.id} />
+          ))}
+        </ul>
+      ) : (
+        <h2 className="text-center">No Products found </h2>
+      )}
     </div>
   );
 };

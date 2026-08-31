@@ -33,8 +33,10 @@ const CustomSelect = ({ value, onChange, error, categories, isPending }: Props) 
   return (
     <div>
       <Select items={items} value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-full max-w-60 ">
-          <SelectValue>{selectedCategory || 'Select category...'}</SelectValue>
+        <SelectTrigger className={`w-full max-w-60 ${error ? 'border-destructive' : null}`}>
+          <SelectValue className={`${error ? 'text-destructive' : null}`}>
+            {selectedCategory || 'Select category...'}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent
           alignItemWithTrigger={false}

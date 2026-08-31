@@ -8,9 +8,19 @@ export const getCategory = async (id: string) => {
   const { data } = await axiosInstance.get(`/categories/${id}`);
   return data.data.category;
 };
-export const getAllCategoriesWithProducts = async () => {
-  const { data } = await axiosInstance.get('/categories/with-products');
-  return data.data;
+
+type Params = {
+  category: string;
+};
+
+export const getAllCategoriesWithProducts = async ({ category }: Params) => {
+  const params = {
+    ...(category !== 'all' && { category }),
+  };
+
+  const { data } = await axiosInstance.get('/categories/with-products', { params });
+
+  return data.data.categories;
 };
 
 export const createCategory = async (data: FormData) => {

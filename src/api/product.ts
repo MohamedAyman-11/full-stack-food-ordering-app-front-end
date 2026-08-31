@@ -13,6 +13,15 @@ export const createProduct = async (data: FormData) => {
   await axiosInstance.post(`/products`, data);
 };
 
+type UpdateProduct = {
+  data: FormData;
+  id: string;
+};
+
+export const updateProduct = async ({ data, id }: UpdateProduct) => {
+  await axiosInstance.patch(`/products/${id}`, data);
+};
+
 export const deleteProduct = async (id: string) => {
   await axiosInstance.delete(`/products/${id}`);
 };

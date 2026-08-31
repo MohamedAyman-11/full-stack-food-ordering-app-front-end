@@ -124,5 +124,34 @@ export const ProductSchema = z.object({
   category: z.string().min(1, 'Please select a category'),
   image: imageSchema,
 });
+
 export type ProductSchemaInput = z.input<typeof ProductSchema>;
 export type ProductSchemaOutput = z.output<typeof ProductSchema>;
+
+export const ProductSchemaUpdate = z.object({
+  name: z.string().trim().min(4, 'Name must be 4 character at least!'),
+  description: z
+    .string()
+    .trim()
+    .min(4, 'Description must be between 20 and 240 character!')
+    .max(240, 'Description must be between 20 and 240 character!'),
+  price: z.preprocess(
+    (value) => Number(value),
+    z
+      .number('Price must be a valid number')
+      .positive('Price must be greater than 0')
+      .multipleOf(0.01, 'Price can have at most 2 decimal places'),
+  ),
+  discount: z.preprocess(
+    (value) => Number(value),
+    z
+      .number('Discount must be a valid number')
+      .min(0, 'Discount must be greater than or equal 0')
+      .max(100, 'Discount cannot be greater than 100'),
+  ),
+  category: z.string().min(1, 'Please select a category'),
+  image: imageSchema.optional(),
+});
+
+export type ProductSchemaUpdateInput = z.input<typeof ProductSchemaUpdate>;
+export type ProductSchemaUpdateOutput = z.output<typeof ProductSchemaUpdate>;

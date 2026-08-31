@@ -77,6 +77,7 @@ export enum Messages {
   ADMIN_USER_UPDATED = 'User updated successfully. 🎉',
   PRODUCT_CREATED = 'Product created successfully. 🎉',
   PRODUCT_DELETED = 'Product deleted successfully. 🎉',
+  PRODUCT_UPDATED = 'Product updated successfully. 🎉',
 }
 export const CheckoutInputs: InputType[] = [
   {

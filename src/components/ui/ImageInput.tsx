@@ -43,7 +43,7 @@ const ImageInput = ({ setFile, file, defaultImage, setErrors, showDeleteOption =
             <X className="stroke-3" />
           </Button>
         )}
-        {preview && <img src={preview} alt="Image" className="w-full h-full rounded-full object-cover" />}
+        {preview && <img src={preview} alt="Image" className="w-full h-full rounded-full object-contain" />}
         <input
           type="file"
           name="file-input"

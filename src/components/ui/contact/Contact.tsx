@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import MainHeading from "../MainHeading";
-import SectionWrapper from "../SectionWrapper";
+import { Link } from 'react-router-dom';
+import MainHeading from '../MainHeading';
+import SectionWrapper from '../SectionWrapper';
 
 const Contact = () => {
   return (

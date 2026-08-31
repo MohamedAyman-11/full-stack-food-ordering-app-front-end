@@ -6,11 +6,11 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { Field, FieldLabel } from '@/components/ui/field';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import CustomAccordion from './CustomAccordion';
+import CustomAccordion from '../CustomAccordion';
 import LoadingButton from '@/components/ui/LoadingButton';
 import { Button, buttonVariants } from '@/components/ui/button';
-import CustomTextarea from './CustomTextarea';
-import CustomSelect from './CustomSelect';
+import CustomTextarea from '../CustomTextarea';
+import CustomSelect from '../CustomSelect';
 import { ProductSchema, type ProductSchemaInput, type ProductSchemaOutput } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useGetCategories from '@/hooks/categories/useGetCategories';
@@ -18,6 +18,8 @@ import useGetCategoryOptions from '@/hooks/categories/useGetCategoryOptions';
 import useCreateProduct from '@/hooks/products/useCreateProduct';
 import toast from 'react-hot-toast';
 import { axiosErrorHandler } from '@/lib/functions';
+import { useNavigate } from 'react-router-dom';
+import { Pages, Routes } from '@/constants';
 
 const FORM_INPUTS: InputType[] = [
   {
@@ -55,12 +57,9 @@ type State = {
   itemId: string;
   price: string;
 };
-interface Props {
-  showForm: boolean;
-  setShowForm: (val: boolean) => void;
-}
 
-const ProductForm = ({ showForm, setShowForm }: Props) => {
+const ProductForm = () => {
+  const navigate = useNavigate();
   const { mutateAsync, isPending: isCreating } = useCreateProduct();
   const {
     register,
@@ -105,6 +104,7 @@ const ProductForm = ({ showForm, setShowForm }: Props) => {
       formData.append('discount', String(discount));
       formData.append('category', category);
       formData.append('isAvailable', String(isAvailable));
+
       if (productSizes.length > 0 && productSizes.every((size) => size.itemId && size.price)) {
         formData.append('sizes', JSON.stringify(productSizes.map((size) => ({ id: size.itemId, price: size.price }))));
       }
@@ -116,16 +116,17 @@ const ProductForm = ({ showForm, setShowForm }: Props) => {
       }
 
       await mutateAsync(formData);
+      navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, { replace: true });
     } catch (error) {
       toast.error(axiosErrorHandler(error));
     }
   };
 
   const onCancel = () => {
-    setShowForm(false);
     setProductExtras([]);
     setProductSizes([]);
     reset();
+    navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, { replace: true });
   };
 
   useEffect(() => {
@@ -137,135 +138,133 @@ const ProductForm = ({ showForm, setShowForm }: Props) => {
   }, [options]);
 
   return (
-    showForm && (
-      <div className="w-full mt-5 mb-10 animate-in fade-in-20 slide-in-from-bottom-4 duration-600">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col lg:items-start lg:flex-row gap-6 w-full">
-            <ImageInput
-              file={file}
-              setFile={(file) => {
-                setValue('image', file as File, {
-                  shouldValidate: true,
-                  shouldDirty: true,
-                  shouldTouch: true,
-                });
-              }}
-              defaultImage={''}
-              error={errors.image?.message?.toString() || ''}
-            />
+    <div className="w-full mt-5 mb-10 animate-in fade-in-20 slide-in-from-bottom-4 duration-600">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col lg:items-start lg:flex-row gap-6 w-full">
+          <ImageInput
+            file={file}
+            setFile={(file) => {
+              setValue('image', file as File, {
+                shouldValidate: true,
+                shouldDirty: true,
+                shouldTouch: true,
+              });
+            }}
+            defaultImage={''}
+            error={errors.image?.message?.toString() || ''}
+          />
 
-            <div className="flex-1 space-y-5">
-              {FORM_INPUTS.slice(0, 2).map((input) => (
-                <div key={input.id}>
-                  {input.name === 'description' ? (
-                    <CustomTextarea
-                      input={input}
-                      register={register(input.name as keyof ProductSchemaInput)}
-                      error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
-                    />
-                  ) : (
-                    <InputField
-                      input={input}
-                      register={register(input.name as keyof ProductSchemaInput)}
-                      error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
-                    />
-                  )}
-                </div>
-              ))}
-
-              <div className=" grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {FORM_INPUTS.slice(2, 4).map((input) => (
-                  <InputField
+          <div className="flex-1 space-y-5">
+            {FORM_INPUTS.slice(0, 2).map((input) => (
+              <div key={input.id}>
+                {input.name === 'description' ? (
+                  <CustomTextarea
                     input={input}
-                    key={input.id}
                     register={register(input.name as keyof ProductSchemaInput)}
                     error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
                   />
-                ))}
-              </div>
-
-              <Controller
-                name="category"
-                control={control}
-                render={({ field, fieldState }) => (
-                  <Field className="gap-2">
-                    <FieldLabel htmlFor="category" className="w-fit text-sm font-medium text-slate-700">
-                      Category
-                    </FieldLabel>
-
-                    <CustomSelect
-                      isPending={isPending}
-                      value={field.value}
-                      onChange={field.onChange}
-                      error={fieldState.error?.message}
-                      categories={categories}
-                    />
-                  </Field>
+                ) : (
+                  <InputField
+                    input={input}
+                    register={register(input.name as keyof ProductSchemaInput)}
+                    error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
+                  />
                 )}
-              />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
-                <CustomAccordion
-                  state={productSizes}
-                  setState={setProductSizes}
-                  type="size"
-                  data={sizes}
-                  category={categoryId}
-                  isPending={isLoading}
-                />
-                <CustomAccordion
-                  state={productExtras}
-                  setState={setProductExtras}
-                  type="extra"
-                  data={extras}
-                  category={categoryId}
-                  isPending={isLoading}
-                />
               </div>
+            ))}
 
-              <Field
-                orientation="horizontal"
-                className="flex extras-center gap-2 cursor-pointer"
-                onClick={() => setIsAvailable((prev) => !prev)}
-              >
-                <Checkbox id={'role'} name={'role'} checked={isAvailable} />
-                <FieldLabel htmlFor={'role'} className="font-semibold text-accent flex-1 cursor-pointer">
-                  Available
-                </FieldLabel>
-              </Field>
+            <div className=" grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {FORM_INPUTS.slice(2, 4).map((input) => (
+                <InputField
+                  input={input}
+                  key={input.id}
+                  register={register(input.name as keyof ProductSchemaInput)}
+                  error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
+                />
+              ))}
             </div>
-          </div>
 
-          <div className="flex items-center gap-5 mt-5">
-            <Button
-              onClick={onCancel}
-              type="button"
-              variant="outline"
-              className={`${buttonVariants({
-                size: 'lg',
-              })}  h-10! md:h-11! flex-1 rounded-lg border-0! bg-gray-200! px-8! py-4! font-semibold! 
+            <Controller
+              name="category"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field className="gap-2">
+                  <FieldLabel htmlFor="category" className="w-fit text-sm font-medium text-slate-700">
+                    Category
+                  </FieldLabel>
+
+                  <CustomSelect
+                    isPending={isPending}
+                    value={field.value}
+                    onChange={field.onChange}
+                    error={fieldState.error?.message}
+                    categories={categories}
+                  />
+                </Field>
+              )}
+            />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
+              <CustomAccordion
+                state={productSizes}
+                setState={setProductSizes}
+                type="size"
+                data={sizes}
+                category={categoryId}
+                isPending={isLoading}
+              />
+              <CustomAccordion
+                state={productExtras}
+                setState={setProductExtras}
+                type="extra"
+                data={extras}
+                category={categoryId}
+                isPending={isLoading}
+              />
+            </div>
+
+            <Field
+              orientation="horizontal"
+              className="flex extras-center gap-2 cursor-pointer"
+              onClick={() => setIsAvailable((prev) => !prev)}
+            >
+              <Checkbox id={'role'} name={'role'} checked={isAvailable} />
+              <FieldLabel htmlFor={'role'} className="font-semibold text-accent flex-1 cursor-pointer">
+                Available
+              </FieldLabel>
+            </Field>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-5 mt-5">
+          <Button
+            onClick={onCancel}
+            type="button"
+            variant="outline"
+            className={`${buttonVariants({
+              size: 'lg',
+            })}  h-10! md:h-11! flex-1 rounded-lg border-0! bg-gray-200! px-8! py-4! font-semibold! 
                      text-black!  shadow-sm transition-all hover:bg-gray-200/90!
                       hover:shadow-md! cursor-pointer!`}
-            >
-              Cancel
-            </Button>
-            <LoadingButton
-              isLoading={isCreating}
-              disabled={isCreating}
-              type="submit"
-              variant="outline"
-              className={`${buttonVariants({
-                size: 'lg',
-              })}  h-10! md:h-11! flex-1  rounded-lg border-0! bg-primary! px-8!
+          >
+            Cancel
+          </Button>
+          <LoadingButton
+            isLoading={isCreating}
+            disabled={isCreating}
+            type="submit"
+            variant="outline"
+            className={`${buttonVariants({
+              size: 'lg',
+            })}  h-10! md:h-11! flex-1  rounded-lg border-0! bg-primary! px-8!
                      py-4! font-semibold! text-white! shadow-sm transition-all hover:bg-primary/90!
                       hover:shadow-md! cursor-pointer!`}
-            >
-              Create product
-            </LoadingButton>
-          </div>
-        </form>
-      </div>
-    )
+          >
+            Create product
+          </LoadingButton>
+        </div>
+      </form>
+    </div>
   );
 };
 
