@@ -1,75 +1,42 @@
-# React + TypeScript + Vite
+# Craveo — Food Ordering Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Craveo is a web-based food ordering application for browsing and customizing menu items, managing orders, and coordinating delivery. It includes dedicated customer, administrator, and delivery partner workflows, connected to an API service.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Customers can explore the menu, build a cart, and complete an order with card or cash-on-delivery payment. Administrators manage the menu, customers, orders, and delivery partners, while delivery partners update assigned orders through delivery. This repository contains the React frontend; application data and order operations require the configured backend API.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Customer
 
-## Expanding the ESLint configuration
+- Browse the home page, menu, and search results.
+- Customize products with available sizes and extras; adjust items in a cart that persists in local storage.
+- Register and sign in, including Google sign-in; recover and reset a password.
+- Enter delivery details, review an order, and choose card or cash-on-delivery payment.
+- View order history and order details; manage account information and password.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Administrator
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Manage products, categories, sizes, and extras.
+- Review and manage customer accounts and orders.
+- Add and manage delivery partners, and assign partners to orders.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Delivery partner
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Sign in to a dedicated delivery area.
+- View active or completed orders, update order progress, cancel orders, and mark deliveries complete.
 
-```
+## Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Application:** React 19, TypeScript, Vite
+- **Routing and state:** React Router, Redux Toolkit, React Redux
+- **API and server state:** Axios, TanStack Query
+- **UI and styling:** Tailwind CSS 4, shadcn/ui, Base UI, Lucide React, Inter Variable
+- **Forms and validation:** React Hook Form, Zod, `@hookform/resolvers`
+- **Authentication integration:** Google OAuth (`@react-oauth/google`)
+- **Development tools:** npm, ESLint
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Architecture
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+This is a client-side single-page application. React Router maps public and role-protected routes; Axios communicates with the backend, and TanStack Query manages server data and mutations. Redux Toolkit holds cart state, which is persisted in `localStorage`. The source is organized into pages, reusable components, API modules, hooks, and shared app state.
