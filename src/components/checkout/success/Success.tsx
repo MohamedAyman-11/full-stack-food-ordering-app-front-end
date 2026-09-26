@@ -1,0 +1,35 @@
+import { buttonVariants } from '@/components/ui/button';
+import EmptyState from '@/components/ui/EmptyState';
+import SectionWrapper from '@/components/ui/SectionWrapper';
+import { Routes } from '@/constants';
+import { Info } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import SuccessContent from './SuccessContent';
+
+const Success = () => {
+  const [searchParams] = useSearchParams();
+
+  const sessionId = searchParams.get('session_id');
+
+  if (!sessionId)
+    return (
+      <SectionWrapper>
+        <EmptyState
+          icon={<Info className="size-7 " />}
+          title="Order Not Found"
+          description="We couldn't find a valid checkout session. Please return to the menu and place your order first."
+          action={
+            <Link
+              to={`/${Routes.MENU}`}
+              className={`${buttonVariants({ variant: 'default', size: 'lg' })} px-5! py-2! font-semibold`}
+            >
+              Browse Menu
+            </Link>
+          }
+        />
+      </SectionWrapper>
+    );
+  return <SuccessContent sessionId={sessionId} />;
+};
+
+export default Success;

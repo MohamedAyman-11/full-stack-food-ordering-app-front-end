@@ -1,12 +1,12 @@
-import type { RootState } from "@/app/store";
-import type { Extra, Size } from "@/interfaces";
+import type { RootState } from '@/app/store';
+import type { Extra, Size } from '@/interfaces';
 import {
   addProductToCartHandler,
   removeProductFromCartHandler,
   increaseQuantityHandler,
   decreaseQuantityHandler,
-} from "@/lib/cart";
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+} from '@/lib/cart';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 export interface CartItem {
   id: string;
   url: string;
@@ -15,26 +15,24 @@ export interface CartItem {
   size?: Size;
   extras?: Extra[];
   price: number;
+  discount: number;
 }
 interface InitialState {
   products: CartItem[];
 }
-const cart = localStorage.getItem("cart");
+const cart = localStorage.getItem('cart');
 const initialState: InitialState = {
   products: cart ? JSON.parse(cart) : [],
 };
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState,
   reducers: {
     addProductToCart: (state, action: PayloadAction<CartItem>) => {
       state.products = addProductToCartHandler(state.products, action.payload);
     },
     removeItemFromCart: (state, action: PayloadAction<CartItem>) => {
-      state.products = removeProductFromCartHandler(
-        state.products,
-        action.payload,
-      );
+      state.products = removeProductFromCartHandler(state.products, action.payload);
     },
     increaseQuantity: (state, action: PayloadAction<CartItem>) => {
       state.products = increaseQuantityHandler(state.products, action.payload);
@@ -47,12 +45,7 @@ export const cartSlice = createSlice({
     },
   },
 });
-export const {
-  addProductToCart,
-  removeItemFromCart,
-  removeCart,
-  increaseQuantity,
-  decreaseQuantity,
-} = cartSlice.actions;
+export const { addProductToCart, removeItemFromCart, removeCart, increaseQuantity, decreaseQuantity } =
+  cartSlice.actions;
 export const getCartItems = (state: RootState) => state.cart.products;
 export default cartSlice.reducer;

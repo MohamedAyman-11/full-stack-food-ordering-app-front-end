@@ -1,7 +1,7 @@
 import useGetUser from '@/hooks/admin/useGetUser';
 import UpdateUserForm from './UpdateUserForm';
 import { useParams } from 'react-router-dom';
-import Loading from '../../extras/Loading';
+import Loading from '../../Loading';
 
 const index = () => {
   const params = useParams();

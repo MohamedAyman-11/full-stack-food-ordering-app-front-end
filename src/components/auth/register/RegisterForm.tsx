@@ -1,129 +1,139 @@
-import { buttonVariants } from "@/components/ui/button";
+import type { InputType, RegisterUserData } from '@/interfaces';
+import AuthFooter from '../AuthFooter';
+import { Pages, Routes } from '@/constants';
+import InputField from '@/components/ui/InputField';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { registerSchema, type RegisterSchemeType } from '@/validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import LoadingButton from '@/components/ui/LoadingButton';
+import toast from 'react-hot-toast';
+import { axiosErrorHandler } from '@/lib/functions';
+import useRegister from '@/hooks/auth/useRegister';
+import { Link, useNavigate } from 'react-router-dom';
+import type { RegisterFieldName } from '@/types/inputs';
+import { ArrowLeft } from 'lucide-react';
+interface RegisterField {
+  label: string;
+  name: RegisterFieldName;
+  placeholder: string;
+  type: InputType;
+}
 
-import type { InputType, SignupUserData } from "@/interfaces";
-import AuthFooter from "../AuthFooter";
-import { Messages, Pages, Routes } from "@/constants";
-import InputField from "@/components/ui/InputField";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { registerSchema, type RegisterSchemeType } from "@/validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import LoadingButton from "@/components/ui/LoadingButton";
-import toast from "../../../../node_modules/react-hot-toast/src/index";
-import { axiosErrorHandler } from "@/lib/functions";
-import useSignup from "@/hooks/auth/useSignup";
-import { useNavigate } from "react-router-dom";
-const RegisterInputs: InputType[] = [
+const REGISTER_NAME_FIELDS: RegisterField[] = [
   {
-    id: crypto.randomUUID(),
-    label: "First name",
-    name: "first_name",
-    placeholder: "Enter your first name",
-    type: "text",
+    label: 'First name',
+    name: 'first_name',
+    placeholder: 'First name',
+    type: 'text',
   },
   {
-    id: crypto.randomUUID(),
-    label: "Last name",
-    name: "last_name",
-    placeholder: "Enter your last name",
-    type: "text",
+    label: 'Last name',
+    name: 'last_name',
+    placeholder: 'Last name',
+    type: 'text',
+  },
+];
+
+const REGISTER_ACCOUNT_FIELDS: RegisterField[] = [
+  {
+    label: 'Email',
+    name: 'email',
+    placeholder: 'Email address',
+    type: 'email',
   },
   {
-    id: crypto.randomUUID(),
-    label: "Email",
-    name: "email",
-    placeholder: "Enter your email address",
-    type: "email",
+    label: 'Password',
+    name: 'password',
+    placeholder: 'Password',
+    type: 'password',
   },
   {
-    id: crypto.randomUUID(),
-    label: "Password",
-    name: "password",
-    placeholder: "Enter your password",
-    type: "password",
-  },
-  {
-    id: crypto.randomUUID(),
-    label: "Confirm password",
-    name: "confirm_password",
-    placeholder: "Confirm your password",
-    type: "password",
+    label: 'Confirm password',
+    name: 'confirm_password',
+    placeholder: 'Confirm your password',
+    type: 'password',
   },
 ];
 
 const RegisterForm = () => {
-  const { isPending, mutateAsync } = useSignup();
+  const { isPending, mutateAsync } = useRegister();
+
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterSchemeType>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(registerSchema),
   });
+
   const onSubmit: SubmitHandler<RegisterSchemeType> = async (data) => {
     try {
-      const userData: SignupUserData = {
+      const userData: RegisterUserData = {
         firstName: data.first_name,
         lastName: data.last_name,
         email: data.email,
         password: data.password,
       };
+
       await mutateAsync(userData);
-      toast.success(Messages.SIGNUP_SUCCESSFULLY);
-      navigate(`/${Routes.AUTH}/${Pages.LOGIN}`, { replace: true });
+
+      navigate(`/${Routes.AUTH}/${Pages.LOGIN}`);
     } catch (error) {
       toast.error(axiosErrorHandler(error));
     }
   };
   return (
-    <div className="bg-white border border-slate-200/80 shadow-[0_12px_40px_rgba(15,23,42,0.08)] max-w-120 mx-auto mt-5 p-7 rounded-2xl">
-      <h3 className="text-2xl text-center font-bold tracking-tight text-slate-900">
-        Create your account
-      </h3>
-      <p className="text-sm text-center text-slate-500 mt-2">
-        Create an account and start enjoying your favorite meals
-      </p>
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-3">
-        <div className="grid grid-cols-2 gap-3">
-          {RegisterInputs.slice(0, 2).map((input) => (
+    <div className="max-w-145 mx-auto h-screen lg:h-auto px-6 lg:px-3 flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center gap-2 flex-col">
+        <img src="/images/brand.png" alt="Craveo" className="h-auto w-40" />
+        <h2 className="text-2xl text-center font-bold tracking-tight text-primary">Create your account</h2>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {REGISTER_NAME_FIELDS.map((input) => (
             <InputField
+              key={input.name}
               input={input}
-              key={input.id}
-              register={register(input.name as keyof RegisterSchemeType)}
-              error={errors[
-                input?.name as keyof RegisterSchemeType
-              ]?.message?.toString()}
+              register={register(input.name)}
+              error={errors[input.name]?.message}
             />
           ))}
         </div>
-        {RegisterInputs.slice(2).map((input) => (
+
+        {REGISTER_ACCOUNT_FIELDS.map((input) => (
           <InputField
+            key={input.name}
             input={input}
-            key={input.id}
-            register={register(input.name as keyof RegisterSchemeType)}
-            error={errors[
-              input?.name as keyof RegisterSchemeType
-            ]?.message?.toString()}
+            register={register(input.name)}
+            error={errors[input.name]?.message}
           />
         ))}
+
         <LoadingButton
-          type="submit"
+          isPending={isPending}
           disabled={isPending}
-          isLoading={isPending}
-          variant="outline"
-          className={`${buttonVariants({
-            size: "lg",
-          })} h-10! md:h-11! w-full rounded-lg border-0! bg-primary! px-8! py-4! font-semibold! text-white! shadow-sm transition-all hover:bg-primary/90! hover:shadow-md! cursor-pointer!`}
+          type="submit"
+          size="lg"
+          className="w-full text-base font-semibold"
         >
           Create account
         </LoadingButton>
 
-        <AuthFooter
-          LinkText="Login"
-          page={Pages.LOGIN}
-          spanText="Already have an account"
-        />
+        <AuthFooter LinkText="Login" page={Pages.LOGIN} spanText="Already have an account" />
+
+        <div className="flex items-center justify-center pt-1 gap-2">
+          <Link
+            to={`${Routes.ROOT}`}
+            className="group text-sm font-medium text-primary transition-colors hover:text-primary/80 flex items-center justify-center pt-1 gap-2"
+          >
+            <ArrowLeft className="text-primary h-5 w-5" />
+            Back to Home
+          </Link>
+        </div>
       </form>
     </div>
   );

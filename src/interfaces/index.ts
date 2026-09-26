@@ -21,6 +21,8 @@ export interface Product {
   created_at: Date;
   updated_at: Date;
   category_id: string;
+  productSizes: Size[];
+  productExtras: Extra[];
 }
 
 export interface CategoryWithProducts {
@@ -47,19 +49,13 @@ export interface Extra {
   };
 }
 
-export type InputType = {
-  type: string;
-  name: string;
-  placeholder: string;
-  id: string;
-  label: string;
-};
+export type InputType = 'text' | 'number' | 'tel' | 'password' | 'file' | 'email';
 export interface LoginUserData {
   email: string;
   password: string;
   remember: boolean;
 }
-export interface SignupUserData {
+export interface RegisterUserData {
   firstName: string;
   lastName: string;
   email: string;

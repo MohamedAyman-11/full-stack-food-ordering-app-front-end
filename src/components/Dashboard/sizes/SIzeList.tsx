@@ -1,18 +1,29 @@
-import EditSize from "../sizes/EditSize";
-import DeleteSize from "../sizes/DeleteSize";
-import useGetSizes from "@/hooks/sizes/useGetSizes";
-import Loading from "../extras/Loading";
+import EditSize from '../sizes/EditSize';
+import DeleteSize from '../sizes/DeleteSize';
+import useGetSizes from '@/hooks/sizes/useGetSizes';
+import Loading from '../Loading';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Info } from 'lucide-react';
+import EmptyState from '@/components/ui/EmptyState';
+import { Pages, Routes } from '@/constants';
+import type { Dispatch, SetStateAction } from 'react';
 interface Size {
   id: string;
   name: string;
   createdAt: Date;
   updatedAt: Date;
 }
-const SizeList = () => {
+
+interface Props {
+  setShowForm: Dispatch<SetStateAction<boolean>>;
+}
+
+const SizeList = ({ setShowForm }: Props) => {
   const { data, isPending } = useGetSizes();
   if (isPending) return <Loading />;
   return (
-    <div className="my-5">
+    <div className="mt-10">
       <ul className="space-y-3">
         {data && data.length > 0 ? (
           data.map((size: Size) => (
@@ -32,7 +43,22 @@ const SizeList = () => {
             </li>
           ))
         ) : (
-          <h2>No Sizes Found</h2>
+          <EmptyState
+            title="No Sizes found!"
+            description="Create sizes to give your items flexible options and make ordering easier."
+            icon={<Info className="size-6" />}
+            action={
+              <Button
+                onClick={() => setShowForm(true)}
+                variant={'default'}
+                size={'lg'}
+                className={'w-40 py-2 font-semibold'}
+              >
+                <Link to={`/${Routes.ADMIN}/${Pages.SIZES}`}>Create Size</Link>
+              </Button>
+            }
+            className="mt-10"
+          />
         )}
       </ul>
     </div>

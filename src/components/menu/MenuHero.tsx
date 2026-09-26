@@ -47,32 +47,35 @@ const MenuHero = () => {
   }, [data]);
 
   return (
-    <SectionWrapper>
-      <div className="text-center">
-        <MainHeading subTitle="Delicious food for everyone" title="Our Menu" />
-      </div>
-      <div className="flex items-center justify-center  flex-wrap gap-2 mt-10">
-        {isPending ? (
-          <LoadingSpinner size="size-15" />
-        ) : (
-          cats.map((category) => (
-            <Button
-              onClick={() => onClickHandler(category.id)}
-              size={'lg'}
-              variant={'outline'}
-              className={`py-1! px-4 sm:py-4 sm:px-5 cursor-pointer rounded-full 
+    <section className="py-10">
+      <div className="container">
+        <div className="text-center">
+          <MainHeading subTitle="Delicious food for everyone" title="Our Menu" />
+        </div>
+        <div className="flex items-center justify-center  flex-wrap gap-2 mt-10">
+          {isPending ? (
+            <LoadingSpinner size="size-15" />
+          ) : (
+            cats.map((category) => (
+              <Button
+                key={category.id}
+                onClick={() => onClickHandler(category.id)}
+                size={'lg'}
+                variant={'outline'}
+                className={`py-1! px-4 sm:py-4 sm:px-5 cursor-pointer rounded-full 
               ${
                 selectedCategory === category.name.toLowerCase()
                   ? 'bg-primary text-white hover:bg-primary! hover:text-white!'
                   : null
               }`}
-            >
-              {category.name}
-            </Button>
-          ))
-        )}
+              >
+                {category.name}
+              </Button>
+            ))
+          )}
+        </div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 };
 

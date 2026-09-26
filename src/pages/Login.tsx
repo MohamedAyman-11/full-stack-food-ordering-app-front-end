@@ -1,4 +1,4 @@
-import LoginComponent from "@/components/auth/login/index";
+import LoginComponent from '@/components/auth/Login/index';
 const Login = () => {
   return (
     <div>

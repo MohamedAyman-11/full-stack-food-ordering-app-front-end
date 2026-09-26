@@ -1,78 +1,84 @@
-import { buttonVariants } from "@/components/ui/button";
-import InputField from "@/components/ui/InputField";
-import { Pages, Routes } from "@/constants";
-import type { InputType } from "@/interfaces";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft } from "lucide-react";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { forgotSchema, type ForgotSchemeType } from "../../../validation/index";
-import useForgotPassword from "@/hooks/auth/useForgotPassword";
-import toast from "../../../../node_modules/react-hot-toast/src/index";
-import { axiosErrorHandler } from "@/lib/functions";
-import LoadingButton from "@/components/ui/LoadingButton";
-const ForgotInputs: InputType[] = [
+import InputField from '@/components/ui/InputField';
+import { Pages, Routes } from '@/constants';
+import type { InputType } from '@/interfaces';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowLeft } from 'lucide-react';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+import { forgotSchema, type ForgotSchemeType } from '../../../validation/index';
+import useForgotPassword from '@/hooks/auth/useForgotPassword';
+import toast from 'react-hot-toast';
+import { axiosErrorHandler } from '@/lib/functions';
+import LoadingButton from '@/components/ui/LoadingButton';
+import type { ForgotFieldName } from '@/types/inputs';
+
+interface ForgotField {
+  label: string;
+  name: ForgotFieldName;
+  placeholder: string;
+  type: InputType;
+}
+const FORGOT_FIELDS: ForgotField[] = [
   {
-    id: crypto.randomUUID(),
-    label: "Email",
-    name: "email",
-    placeholder: "Enter your email address",
-    type: "email",
+    label: 'Email',
+    name: 'email',
+    placeholder: 'Enter your email address',
+    type: 'email',
   },
 ];
+
 const ForgotPasswordForm = () => {
   const { mutateAsync, isPending } = useForgotPassword();
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<ForgotSchemeType>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(forgotSchema),
   });
+
   const onSubmit: SubmitHandler<ForgotSchemeType> = async ({ email }) => {
     try {
       const res = await mutateAsync({ email });
+
       toast.success(res.message);
     } catch (error) {
       toast.error(axiosErrorHandler(error));
     }
   };
+
   return (
-    <div className="bg-white border border-slate-200/80 shadow-[0_12px_40px_rgba(15,23,42,0.08)] max-w-112.5 mx-auto mt-10 p-7 rounded-2xl">
-      <h3 className="text-2xl text-center font-bold tracking-tight text-slate-900">
-        Forgot your password?
-      </h3>
-
-      <p className="text-sm text-center text-slate-500 mt-2 leading-5">
-        Please enter the email address associated with your account. We'll
-        promptly send you a link to reset your password.
-      </p>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4">
-        {ForgotInputs.map((input) => (
+    <div className="max-w-140 mx-auto h-screen lg:h-auto px-6 lg:px-3 flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center gap-2 flex-col">
+        <img src="/images/brand.png" alt="Craveo" className="w-40 h-auto" />
+        <h2 className="text-2xl text-center font-bold tracking-tight text-primary">Forgot your password?</h2>
+        <p className="text-sm text-center text-slate-500 mt-2 leading-5">
+          Enter your email and we'll send you a secure link to reset your password.
+        </p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-7 space-y-4 w-full">
+        {FORGOT_FIELDS.map((input) => (
           <InputField
             input={input}
-            key={input.id}
-            register={register(input.name as keyof ForgotSchemeType)}
-            error={errors[
-              input?.name as keyof ForgotSchemeType
-            ]?.message?.toString()}
+            key={input.name}
+            register={register(input.name)}
+            error={errors[input.name]?.message}
           />
         ))}
+
         <LoadingButton
+          isPending={isPending}
           disabled={isPending}
-          isLoading={isPending}
           type="submit"
-          variant="outline"
-          className={`${buttonVariants({
-            size: "lg",
-          })} h-10! md:h-11! w-full rounded-lg border-0! bg-primary! px-8! py-4! font-semibold! text-white! shadow-sm transition-all hover:bg-primary/90! hover:shadow-md! cursor-pointer!`}
+          size="lg"
+          className="w-full text-base font-semibold"
         >
           Send reset link
         </LoadingButton>
 
-        <div className="flex items-center justify-center pt-1 gap-2">
+        <div className="flex items-center justify-center pt-1 gap-1.5">
           <Link
             to={`/${Routes.AUTH}/${Pages.LOGIN}`}
             className="group text-sm font-medium text-primary transition-colors hover:text-primary/80 flex items-center justify-center pt-1 gap-2"

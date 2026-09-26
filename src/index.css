@@ -5,6 +5,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
@@ -85,6 +86,12 @@
   --font-heading: var(--font-sans);
 
   /* Colors */
+
+  --color-instagram:#e1306c;
+  --color-linkedin:#0a66c2;
+  --color-github:#333;
+
+
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -127,6 +134,9 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  
+  /* Animation */
+
 }
 
 @layer base {
@@ -161,13 +171,50 @@
     @apply my-8 md:my-16;
   }
   aside .active{
-    @apply text-primary! bg-primary/5
+    @apply text-white! bg-primary
 
   }
 }
+
+
+
+/* Chrome, Edge, Safari */
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+
+html::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+}
+
+
+html::-webkit-scrollbar-track{
+  @apply bg-primary/3
+}
+
+
+body{
+  @apply bg-primary/3
+}
+
 .hero {
   min-height: calc(100vh - 95px);
   display: flex;
   align-items: center;
 }
+
+
+
 

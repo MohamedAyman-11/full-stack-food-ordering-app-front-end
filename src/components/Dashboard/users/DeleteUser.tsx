@@ -113,7 +113,7 @@ const DeleteUser = ({ user }: Props) => {
           <LoadingButton
             onClick={onDelete}
             disabled={isPending}
-            isLoading={isPending}
+            isPending={isPending}
             variant="destructive"
             type="button"
             className="min-w-37.5 cursor-pointer"

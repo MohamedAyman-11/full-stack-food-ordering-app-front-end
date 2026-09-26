@@ -1,12 +1,12 @@
-import axiosInstance from "@/lib/axios";
+import { axiosInstance } from '@/lib/axios';
 
 export const getSizes = async () => {
-  const { data } = await axiosInstance.get("/sizes");
+  const { data } = await axiosInstance.get('/sizes');
   return data.data.sizes;
 };
 
 export const createSize = async (data: { name: string }) => {
-  const res = await axiosInstance.post("/sizes", data);
+  const res = await axiosInstance.post('/sizes', data);
   return res.data;
 };
 

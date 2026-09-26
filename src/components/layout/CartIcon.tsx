@@ -1,21 +1,37 @@
-import { getCartItems } from "@/app/features/cart/cart";
-import { useAppSelector } from "@/app/hooks";
-import { Routes } from "@/constants";
-import { getCartQuantity } from "@/lib/cart";
-import { ShoppingCartIcon } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ShoppingCartIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { getCartItems } from '@/app/features/cart/cart';
+import { useAppSelector } from '@/app/hooks';
+import { Routes } from '@/constants';
+import { getCartQuantity } from '@/lib/cart';
 
 const CartIcon = () => {
   const cart = useAppSelector(getCartItems);
+  const quantity = getCartQuantity(cart);
+
   return (
-    <div className="px-3 rounded-xl">
-      <Link to={`/${Routes.CART}`} className="relative group cursor-pointer">
-        <span className="absolute -top-2 inset-s-6 w-5 h-5 text-sm bg-primary rounded-full text-white text-center">
-          {getCartQuantity(cart)}
+    <Link
+      to={`/${Routes.CART}`}
+      aria-label={`Cart with ${quantity} items`}
+      className="group relative flex size-10 items-center justify-center rounded-xl
+       transition-colors duration-200 hover:bg-primary/5
+      "
+    >
+      {/* Quantity Badge */}
+      {quantity > 0 && (
+        <span
+          className="absolute right-0 top-1 flex size-4 -translate-y-1/4 translate-x-1/4 items-center
+           justify-center rounded-full bg-primary text-[10px] font-bold leading-none text-white ring-1 ring-white
+          "
+        >
+          {quantity > 99 ? '99+' : quantity}
         </span>
-        <ShoppingCartIcon className="text-accent group-hover:text-primary duration-200 transition-colors w-7.5! h-7.5!" />
-      </Link>
-    </div>
+      )}
+
+      {/* Cart Icon */}
+      <ShoppingCartIcon className=" size-6 text-accent stroke-[1.9] transition-all duration-200 group-hover:scale-105 group-hover:text-primary" />
+    </Link>
   );
 };
 

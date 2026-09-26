@@ -1,11 +1,11 @@
-import axiosInstance from "@/lib/axios";
+import { axiosInstance } from '@/lib/axios';
 
 export const getExtras = async () => {
-  const { data } = await axiosInstance.get("/extras");
+  const { data } = await axiosInstance.get('/extras');
   return data.data.extras;
 };
 export const createExtra = async (data: { name: string }) => {
-  const res = await axiosInstance.post("/extras", data);
+  const res = await axiosInstance.post('/extras', data);
   return res.data;
 };
 type UpdateExtra = {

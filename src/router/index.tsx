@@ -1,17 +1,9 @@
 import { Pages, Routes } from '@/constants';
-import About from '@/pages/About';
 import Cart from '@/pages/Cart';
-import Contact from '@/pages/Contact';
-import Forgot from '@/pages/Forgot';
 import Home from '@/pages/Home';
 import Layout from '@/pages/Layout';
-import Login from '@/pages/Login';
 import Menu from '@/pages/Menu';
-import Register from '@/pages/Register';
-import Reset from '@/pages/Reset';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import ProtectedRoute from './ProtectedRoute';
-import useGetCurrentUser from '@/hooks/auth/useGetCurrentUser';
 import DashboardLayout from '@/pages/DashboardLayout.tsx';
 import AccountDetails from '@/pages/AccountDetails';
 import UpdatePassword from '@/pages/UpdatePassword';
@@ -24,98 +16,119 @@ import Users from '@/pages/Users';
 import Products from '@/pages/Products';
 import UpdateProduct from '@/pages/UpdateProduct';
 import CreateProduct from '@/pages/CreateProduct';
+import Search from '@/pages/Search';
+import AdminPanelLayout from '@/pages/AdminPanelLayout';
+import AdminProtectedRoute from './AdminProtectedRoute';
+import MyOrders from '@/pages/MyOrders';
+import Order from '@/pages/Order';
+import Forgot from '@/pages/Forgot';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import Reset from '@/pages/Reset';
+import AuthProtectedRoute from './AuthProtectedRoute';
+import AuthLayout from '@/pages/AuthLayout';
+import Checkout from '@/pages/Checkout';
+import DeliveryLogin from '@/pages/DeliveryLogin';
+import DeliveryLayout from '@/pages/DeliveryLayout';
+import DeliveryProtectedRoute from './DeliveryProtectedRoute';
+import DeliveryAuthProtectedRoute from './DeliveryAuthProtectedRoute';
+import DeliveryOrders from '@/pages/DeliveryOrders';
+import AdminOrders from '@/pages/AdminOrders';
+import DeliveryOrder from '@/pages/DeliveryOrder';
+import UserProtectedRoutes from './UserProtectedRoutes';
+import AdminDeliveryBoys from '@/pages/AdminDeliveryBoys';
+import CheckoutSuccess from '@/pages/CheckoutSuccess';
+import CheckoutCancel from '@/pages/CheckoutCancel';
 
 const Router = () => {
-  const { data: user, isLoading } = useGetCurrentUser();
-  console.log('user', user);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        {/* GLOBAL */}
+        {/* ==================== PUBLIC / USER ==================== */}
         <Route path={Routes.ROOT} element={<Layout />}>
+          {/* Public */}
           <Route index element={<Home />} />
-          <Route path={Pages.ABOUT} element={<About />} />
-          <Route path={Pages.CONTACT} element={<Contact />} />
+          <Route path={Pages.SEARCH} element={<Search />} />
           <Route path={Routes.MENU} element={<Menu />} />
           <Route path={Routes.CART} element={<Cart />} />
-          <Route
-            path={`${Routes.AUTH}/${Pages.LOGIN}`}
-            element={
-              <ProtectedRoute redirectTo={Routes.ROOT} isAllowed={!user} isLoading={isLoading}>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={`${Routes.AUTH}/${Pages.REGISTER}`}
-            element={
-              <ProtectedRoute redirectTo={Routes.ROOT} isAllowed={!user} isLoading={isLoading}>
-                <Register />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={`${Routes.AUTH}/${Pages.FORGOT_PASSWORD}`}
-            element={
-              <ProtectedRoute redirectTo={Routes.ROOT} isAllowed={!user} isLoading={isLoading}>
-                <Forgot />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={`${Routes.AUTH}/${Pages.RESET_PASSWORD}/:token`}
-            element={
-              <ProtectedRoute redirectTo={Routes.ROOT} isAllowed={!user} isLoading={isLoading}>
-                <Reset />
-              </ProtectedRoute>
-            }
-          />
+
+          {/* User Protected */}
+          <Route element={<UserProtectedRoutes />}>
+            <Route path={Pages.MY_ORDERS} element={<MyOrders />} />
+            <Route path={`${Pages.MY_ORDERS}/:id`} element={<Order />} />
+            <Route path={Pages.CHECKOUT} element={<Checkout />} />
+            <Route path={Pages.CHECKOUT_SUCCESS} element={<CheckoutSuccess />} />
+            <Route path={Pages.CHECKOUT_CANCEL} element={<CheckoutCancel />} />
+
+            {/* Profile */}
+            <Route path={Routes.PROFILE} element={<DashboardLayout />}>
+              <Route index element={<AccountDetails />} />
+              <Route path={Pages.ACCOUNT_DETAILS} element={<AccountDetails />} />
+              <Route path={Pages.PASSWORD} element={<UpdatePassword />} />
+            </Route>
+          </Route>
         </Route>
-        {/* USERS */}
-        <Route
-          path={`${Routes.PROFILE}`}
-          element={
-            <ProtectedRoute
-              isLoading={isLoading}
-              isAllowed={user && user.role === 'CUSTOMER'}
-              redirectTo={`/${Routes.AUTH}/${Pages.LOGIN}`}
-            >
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AccountDetails />} />
-          <Route path={`${Pages.ACCOUNT_DETAILS}`} element={<AccountDetails />} />
-          <Route path={`${Pages.PASSWORD}`} element={<UpdatePassword />} />
-          <Route path={`${Pages.ORDERS}`} element={<h1>ORDERS</h1>} />
+
+        {/* Admin */}
+        <Route element={<AdminProtectedRoute />}>
+          <Route path={Routes.ADMIN} element={<AdminPanelLayout />}>
+            <Route index element={<Products />} />
+
+            <Route path={Pages.ITEMS}>
+              <Route index element={<Products />} />
+              <Route path="new" element={<CreateProduct />} />
+              <Route path=":id" element={<UpdateProduct />} />
+            </Route>
+
+            <Route path={Pages.CATEGORIES}>
+              <Route index element={<Categories />} />
+              <Route path=":id" element={<UpdateCategory />} />
+            </Route>
+
+            <Route path={Pages.SIZES} element={<Sizes />} />
+
+            <Route path={Pages.EXTRAS} element={<Extras />} />
+
+            <Route path={Pages.CUSTOMERS}>
+              <Route index element={<Users />} />
+              <Route path=":id" element={<UpdateUser />} />
+            </Route>
+
+            <Route path={Pages.ORDERS} element={<AdminOrders />} />
+            <Route path={Pages.DELIVERY_PARTNERS} element={<AdminDeliveryBoys />} />
+          </Route>
         </Route>
-        {/* ADMIN */}
-        <Route
-          path={`${Routes.ADMIN}`}
-          element={
-            <ProtectedRoute
-              isLoading={isLoading}
-              isAllowed={user && user.role === 'ADMIN'}
-              redirectTo={`/${Routes.AUTH}/${Pages.LOGIN}`}
-            >
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AccountDetails />} />
-          <Route path={`${Pages.ACCOUNT_DETAILS}`} element={<AccountDetails />} />
-          <Route path={`${Pages.PASSWORD}`} element={<UpdatePassword />} />
-          <Route path={`${Pages.DASHBOARD}`} element={<h1>DASHBOARD</h1>} />
-          <Route path={`${Pages.CATEGORIES}`} element={<Categories />} />
-          <Route path={`${Pages.CATEGORIES}/:id`} element={<UpdateCategory />} />
-          <Route path={`${Pages.SIZES}`} element={<Sizes />} />
-          <Route path={`${Pages.EXTRAS}`} element={<Extras />} />
-          <Route path={`${Pages.ITEMS}`} element={<Products />} />
-          <Route path={`${Pages.ITEMS}/:id`} element={<UpdateProduct />} />
-          <Route path={`${Pages.ITEMS}/new`} element={<CreateProduct />} />
-          <Route path={`${Pages.CUSTOMERS}`} element={<Users />} />
-          <Route path={`${Pages.CUSTOMERS}/:id`} element={<UpdateUser />} />
-          <Route path={`${Pages.ORDERS}`} element={<h1>ORDERS</h1>} />
+
+        {/* ==================== USER AUTH ==================== */}
+        <Route element={<AuthProtectedRoute />}>
+          <Route path={Routes.AUTH} element={<AuthLayout />}>
+            <Route index element={<Login />} />
+            <Route path={Pages.LOGIN} element={<Login />} />
+            <Route path={Pages.REGISTER} element={<Register />} />
+            <Route path={Pages.FORGOT_PASSWORD} element={<Forgot />} />
+            <Route path={`${Pages.RESET_PASSWORD}/:token`} element={<Reset />} />
+          </Route>
+        </Route>
+
+        {/* ==================== DELIVERY AUTH ==================== */}
+        <Route element={<DeliveryAuthProtectedRoute />}>
+          <Route path={Routes.DELIVERY_AUTH} element={<AuthLayout />}>
+            <Route index element={<DeliveryLogin />} />
+            <Route path={Pages.LOGIN} element={<DeliveryLogin />} />
+          </Route>
+        </Route>
+
+        {/* ==================== DELIVERY ==================== */}
+        <Route element={<DeliveryProtectedRoute />}>
+          <Route path={Routes.DELIVERY} element={<DeliveryLayout />}>
+            <Route index element={<DeliveryOrders />} />
+
+            <Route path={Pages.ORDERS} element={<DeliveryOrders />} />
+
+            {/* Future */}
+
+            <Route path="orders/:id" element={<DeliveryOrder />} />
+          </Route>
         </Route>
       </>,
     ),

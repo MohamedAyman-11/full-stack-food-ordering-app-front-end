@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import LoadingButton from '@/components/ui/LoadingButton';
-import { Messages } from '@/constants';
 import { axiosErrorHandler } from '@/lib/functions';
 import { Trash } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -42,14 +41,10 @@ const DeleteProduct = ({ id }: Props) => {
         render={
           <Button
             variant={'destructive'}
-            size="lg"
-            className="
-            cursor-pointer!
-            inline-flex items-center justify-center gap-2 rounded-md border border-red-200! px-3 py-2
-            text-sm font-medium text-red-600! transition-colors! hover:bg-red-50!
+            className="h-10 rounded-xl flex items-center justify-center gap-2 
             "
           >
-            <Trash className="size-5" />
+            <Trash className="size-4" />
             Delete
           </Button>
         }
@@ -89,7 +84,7 @@ const DeleteProduct = ({ id }: Props) => {
           <LoadingButton
             onClick={onDeleteHandler}
             disabled={isPending}
-            isLoading={isPending}
+            isPending={isPending}
             variant="destructive"
             type="button"
             className="min-w-46 cursor-pointer"

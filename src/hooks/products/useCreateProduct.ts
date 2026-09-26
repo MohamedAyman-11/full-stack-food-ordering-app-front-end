@@ -11,7 +11,8 @@ const useCreateProduct = () => {
       toast.success(Messages.PRODUCT_CREATED);
       await Promise.all([
         client.invalidateQueries({ queryKey: [Query_Keys.PRODUCTS] }),
-        client.invalidateQueries({ queryKey: [Query_Keys.CATEGORIES_PRODUCTS] }),
+        client.invalidateQueries({ queryKey: [Query_Keys.PRODUCT] }),
+        client.invalidateQueries({ queryKey: [Query_Keys.ADMIN_PRODUCTS] }),
       ]);
     },
   });

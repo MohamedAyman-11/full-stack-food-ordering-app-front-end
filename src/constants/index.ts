@@ -1,5 +1,3 @@
-import type { InputType } from '@/interfaces';
-
 export enum Directions {
   RTL = 'rtl',
   LTR = 'ltr',
@@ -19,15 +17,23 @@ export enum Routes {
   CART = 'cart',
   PROFILE = 'profile',
   ADMIN = 'admin',
+  SEARCH = 'search',
+  DELIVERY = 'delivery',
+  DELIVERY_AUTH = '/delivery/auth',
 }
 
 export enum Pages {
-  LOGIN = 'signin',
-  REGISTER = 'signup',
+  LOGIN = 'login',
+  REGISTER = 'register',
   FORGOT_PASSWORD = 'forgot-password',
   RESET_PASSWORD = 'reset-password',
   ABOUT = 'about',
+  SEARCH = 'search',
   CONTACT = 'contact',
+  CHECKOUT = 'checkout',
+  MY_ORDERS = 'orders',
+  CHECKOUT_SUCCESS = 'checkout/success',
+  CHECKOUT_CANCEL = 'checkout/cancel',
 
   // Profile
   ACCOUNT_DETAILS = 'account-details',
@@ -41,12 +47,22 @@ export enum Pages {
   ITEMS = 'items',
   CUSTOMERS = 'users',
   ORDERS = 'orders',
+  DELIVERY_PARTNERS = 'delivery-partners',
 }
+
+export const AppPaths = {
+  login: `/${Routes.AUTH}/${Pages.LOGIN}`,
+  register: `/${Routes.AUTH}/${Pages.REGISTER}`,
+
+  deliveryLogin: `/${Routes.DELIVERY}/${Routes.AUTH}/${Pages.LOGIN}`,
+  deliveryRegister: `/${Routes.DELIVERY}/${Routes.AUTH}/${Pages.REGISTER}`,
+} as const;
+
 export enum Query_Keys {
   CATEGORIES = 'Categories',
-  CATEGORIES_PRODUCTS = 'Categories_WITH_PRODUCTS',
+  CATEGORIES_PRODUCTS = 'CategoriesWith_Products',
   PRODUCT = 'Product',
-  CURRENT_USER = 'Current_User',
+  CURRENT_USER = 'CurrentUser',
   SIZES = 'Sizes',
   EXTRAS = 'Extras',
   CATEGORY = 'Category',
@@ -54,6 +70,16 @@ export enum Query_Keys {
   ADMIN_USER = 'AdminUser',
   CATEGORY_OPTIONS = 'CategoryOptions',
   PRODUCTS = 'Products',
+  ADMIN_PRODUCTS = 'AdminProducts',
+  MY_ORDERS = 'MyOrders',
+  MY_ORDER = 'MyOrder',
+  CURRENT_DELIVERY = 'CurrentDelivery',
+  DELIVERY_ORDERS = 'Delivery_Orders',
+  ADMIN_DELIVERY_PARTNERS = 'Delivery_Partners',
+  ADMIN_ACTIVE_DELIVERY_PARTNERS = 'ACTIVE_Delivery_Partners',
+  ADMIN_ORDERS = 'AdminOrders',
+  CHECKOUT_SUCCESS = 'CheckoutSuccess',
+  BEST_SELLER = 'BestSeller',
 }
 export enum Messages {
   ADDED_TO_CART = 'Product added to cart successfully.',
@@ -78,34 +104,8 @@ export enum Messages {
   PRODUCT_CREATED = 'Product created successfully. 🎉',
   PRODUCT_DELETED = 'Product deleted successfully. 🎉',
   PRODUCT_UPDATED = 'Product updated successfully. 🎉',
+  PARTNER_ADDED = 'Partner added successfully. 🎉',
+  ORDER_ASSIGNED = 'Delivery partner assigned successfully. 🎉',
+  ORDER_DELIVERED = 'Order delivered successfully. 🎉',
+  ORDER_CANCELED = 'Order canceled successfully.',
 }
-export const CheckoutInputs: InputType[] = [
-  {
-    id: crypto.randomUUID(),
-    type: 'text',
-    label: 'Street',
-    name: 'street',
-    placeholder: 'Enter your street',
-  },
-  {
-    id: crypto.randomUUID(),
-    type: 'number',
-    label: 'Postal Code',
-    name: 'postal_code',
-    placeholder: 'Enter postal code',
-  },
-  {
-    id: crypto.randomUUID(),
-    type: 'text',
-    label: 'City',
-    name: 'city',
-    placeholder: 'Enter your city',
-  },
-  {
-    id: crypto.randomUUID(),
-    type: 'text',
-    label: 'Country',
-    name: 'country',
-    placeholder: 'Enter your country',
-  },
-];

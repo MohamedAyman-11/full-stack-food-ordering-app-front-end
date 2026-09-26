@@ -89,7 +89,7 @@ const DeleteCategory = ({ id }: Props) => {
           <LoadingButton
             onClick={onDeleteHandler}
             disabled={isPending}
-            isLoading={isPending}
+            isPending={isPending}
             variant="destructive"
             type="button"
             className="min-w-46 cursor-pointer"

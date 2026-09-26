@@ -1,17 +1,15 @@
-import { Pages, Routes } from "@/constants";
-import { buttonVariants } from "../ui/button";
-import { Link } from "react-router-dom";
-interface Props {
-  setOpenMenu: (value: boolean) => void;
-}
-const LoginButton = ({ setOpenMenu }: Props) => {
+import { Link } from 'react-router-dom';
+import { buttonVariants } from '../ui/button';
+import { Pages, Routes } from '@/constants';
+
+const LoginButton = () => {
   return (
     <Link
       to={`/${Routes.AUTH}/${Pages.LOGIN}`}
-      onClick={() => setOpenMenu(false)}
-      className={`${buttonVariants({ size: "lg" })} rounded-full! px-8! py-5.5! text-white! font-semibold text-xl`}
+      className={`${buttonVariants({ size: 'lg', variant: 'default' })} ml-3 rounded-full! duration-300 
+      transition-all cursor-pointer px-6! md:px-7! h-10! py-3! text-base font-semibold`}
     >
-      Login
+      Sign in
     </Link>
   );
 };

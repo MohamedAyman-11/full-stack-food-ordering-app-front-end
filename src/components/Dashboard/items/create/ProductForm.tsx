@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import CustomAccordion from '../CustomAccordion';
 import LoadingButton from '@/components/ui/LoadingButton';
 import { Button, buttonVariants } from '@/components/ui/button';
-import CustomTextarea from '../CustomTextarea';
+import CustomTextarea from '../../../ui/CustomTextarea';
 import CustomSelect from '../CustomSelect';
 import { ProductSchema, type ProductSchemaInput, type ProductSchemaOutput } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,31 +20,35 @@ import toast from 'react-hot-toast';
 import { axiosErrorHandler } from '@/lib/functions';
 import { useNavigate } from 'react-router-dom';
 import { Pages, Routes } from '@/constants';
+import type { ProductFieldName } from '@/types/inputs';
 
-const FORM_INPUTS: InputType[] = [
+type Input = {
+  name: ProductFieldName;
+  type: InputType;
+  label: string;
+  placeholder: string;
+};
+
+const FORM_INPUTS: Input[] = [
   {
-    id: crypto.randomUUID(),
     label: 'Name',
     name: 'name',
     placeholder: 'Name',
     type: 'text',
   },
   {
-    id: crypto.randomUUID(),
     label: 'Description',
     name: 'description',
     placeholder: 'Description',
     type: 'text',
   },
   {
-    id: crypto.randomUUID(),
     label: 'Price',
     name: 'price',
     placeholder: 'Price',
     type: 'number',
   },
   {
-    id: crypto.randomUUID(),
     type: 'number',
     label: 'Discount',
     name: 'discount',
@@ -105,13 +109,16 @@ const ProductForm = () => {
       formData.append('category', category);
       formData.append('isAvailable', String(isAvailable));
 
-      if (productSizes.length > 0 && productSizes.every((size) => size.itemId && size.price)) {
-        formData.append('sizes', JSON.stringify(productSizes.map((size) => ({ id: size.itemId, price: size.price }))));
+      if (productSizes.length > 0) {
+        const filteredSizes = productSizes.filter((item) => item.itemId && item.price);
+        formData.append('sizes', JSON.stringify(filteredSizes.map((size) => ({ id: size.itemId, price: size.price }))));
       }
-      if (productExtras.length > 0 && productExtras.every((extra) => extra.itemId && extra.price)) {
+
+      if (productExtras.length > 0) {
+        const filteredExtras = productExtras.filter((item) => item.itemId && item.price);
         formData.append(
           'extras',
-          JSON.stringify(productExtras.map((extra) => ({ id: extra.itemId, price: extra.price }))),
+          JSON.stringify(filteredExtras.map((extra) => ({ id: extra.itemId, price: extra.price }))),
         );
       }
 
@@ -138,7 +145,7 @@ const ProductForm = () => {
   }, [options]);
 
   return (
-    <div className="w-full mt-5 mb-10 animate-in fade-in-20 slide-in-from-bottom-4 duration-600">
+    <div className="w-full mt-5 animate-in fade-in-20 slide-in-from-bottom-2 duration-300">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col lg:items-start lg:flex-row gap-6 w-full">
           <ImageInput
@@ -156,19 +163,11 @@ const ProductForm = () => {
 
           <div className="flex-1 space-y-5">
             {FORM_INPUTS.slice(0, 2).map((input) => (
-              <div key={input.id}>
+              <div key={input.name}>
                 {input.name === 'description' ? (
-                  <CustomTextarea
-                    input={input}
-                    register={register(input.name as keyof ProductSchemaInput)}
-                    error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
-                  />
+                  <CustomTextarea input={input} register={register(input.name)} error={errors[input.name]?.message} />
                 ) : (
-                  <InputField
-                    input={input}
-                    register={register(input.name as keyof ProductSchemaInput)}
-                    error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
-                  />
+                  <InputField input={input} register={register(input.name)} error={errors[input.name]?.message} />
                 )}
               </div>
             ))}
@@ -177,9 +176,9 @@ const ProductForm = () => {
               {FORM_INPUTS.slice(2, 4).map((input) => (
                 <InputField
                   input={input}
-                  key={input.id}
-                  register={register(input.name as keyof ProductSchemaInput)}
-                  error={errors[input?.name as keyof ProductSchemaInput]?.message?.toString()}
+                  key={input.name}
+                  register={register(input.name)}
+                  error={errors[input.name]?.message}
                 />
               ))}
             </div>
@@ -250,7 +249,7 @@ const ProductForm = () => {
             Cancel
           </Button>
           <LoadingButton
-            isLoading={isCreating}
+            isPending={isCreating}
             disabled={isCreating}
             type="submit"
             variant="outline"

@@ -8,7 +8,7 @@ import { Pages, Routes } from '@/constants';
 import useUpdateUserData from '@/hooks/admin/useUpdateUserData';
 import type { InputType, User } from '@/interfaces';
 import { axiosErrorHandler } from '@/lib/functions';
-import { accountDetailsSchema, type AccountDetailsType } from '@/validation';
+import { accountDetailsSchema, type AccountDetailsSchemaType } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -97,7 +97,7 @@ const UpdateUserForm = ({ user }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AccountDetailsType>({
+  } = useForm<AccountDetailsSchemaType>({
     mode: 'onChange',
     resolver: zodResolver(accountDetailsSchema),
     defaultValues: {
@@ -113,7 +113,7 @@ const UpdateUserForm = ({ user }: Props) => {
     },
   });
 
-  const onSubmit: SubmitHandler<AccountDetailsType> = async (data) => {
+  const onSubmit: SubmitHandler<AccountDetailsSchemaType> = async (data) => {
     try {
       const formData = new FormData();
 
@@ -154,8 +154,8 @@ const UpdateUserForm = ({ user }: Props) => {
                 <InputField
                   input={input}
                   key={input.id}
-                  register={register(input.name as keyof AccountDetailsType)}
-                  error={errors[input?.name as keyof AccountDetailsType]?.message?.toString()}
+                  register={register(input.name as keyof AccountDetailsSchemaType)}
+                  error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />
               ))}
             </div>
@@ -165,8 +165,8 @@ const UpdateUserForm = ({ user }: Props) => {
                   readonly={true}
                   input={input}
                   key={input.id}
-                  register={register(input.name as keyof AccountDetailsType)}
-                  error={errors[input?.name as keyof AccountDetailsType]?.message?.toString()}
+                  register={register(input.name as keyof AccountDetailsSchemaType)}
+                  error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />
               ))}
             </div>
@@ -175,8 +175,8 @@ const UpdateUserForm = ({ user }: Props) => {
                 <InputField
                   input={input}
                   key={input.id}
-                  register={register(input.name as keyof AccountDetailsType)}
-                  error={errors[input?.name as keyof AccountDetailsType]?.message?.toString()}
+                  register={register(input.name as keyof AccountDetailsSchemaType)}
+                  error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />
               ))}
               <Field
@@ -204,7 +204,7 @@ const UpdateUserForm = ({ user }: Props) => {
                 Cancel
               </Button>
               <LoadingButton
-                isLoading={isPending}
+                isPending={isPending}
                 disabled={isPending}
                 type="submit"
                 variant="outline"

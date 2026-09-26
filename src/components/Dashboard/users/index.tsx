@@ -2,7 +2,7 @@ import CustomersList from './CustomersList';
 
 const index = () => {
   return (
-    <div className="w-full  lg:pl-8">
+    <div className="w-full lg:pl-6 mb-10 min-w-0">
       <div className="mb-5">
         <h3 className="text-xl text-start font-semibold tracking-tight text-primary">Customers</h3>
       </div>

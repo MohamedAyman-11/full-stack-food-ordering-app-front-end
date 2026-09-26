@@ -1,16 +1,17 @@
-import SectionWrapper from "@/components/ui/SectionWrapper";
-import ResetPasswordForm from "./ResetPasswordForm";
+import ResetPasswordForm from './ResetPasswordForm';
+import AuthHero from '../AuthHero';
 
 const index = () => {
   return (
-    <SectionWrapper>
-      <div className="text-center">
-        <h2 className="text-primary font-bold text-5xl italic">
-          Reset password
-        </h2>
+    <div className="flex items-center">
+      <AuthHero
+        heading="Create a new password"
+        description="Choose a new password to keep your Craveo account secure and get back to ordering."
+      />
+      <div className="w-full lg:w-1/2">
+        <ResetPasswordForm />
       </div>
-      <ResetPasswordForm />
-    </SectionWrapper>
+    </div>
   );
 };
 

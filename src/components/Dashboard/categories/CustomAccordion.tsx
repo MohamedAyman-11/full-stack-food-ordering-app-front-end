@@ -126,7 +126,7 @@ const CustomSelect = ({ data, onChangeSelect, selectedItem, type }: SelectProps)
   const item = data.find((el) => el.id === selectedItem);
   return (
     <Select value={selectedItem} onValueChange={onChangeSelect}>
-      <SelectTrigger className="w-full  border-gray-300! ">
+      <SelectTrigger className="w-full bg-white border-gray-300! ">
         <SelectValue>{item?.name || 'Select...'}</SelectValue>
       </SelectTrigger>
       <SelectContent

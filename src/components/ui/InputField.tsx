@@ -1,12 +1,13 @@
 import { Field, FieldError, FieldLabel } from './field';
 import { InputGroup, InputGroupAddon, InputGroupInput } from './input-group';
-import { Eye, EyeOff } from 'lucide-react';
+import { CircleAlert, Eye, EyeOff } from 'lucide-react';
 import { buttonVariants } from './button';
 import type { InputType } from '@/interfaces';
 import { useState } from 'react';
 import type { UseFormRegisterReturn } from 'react-hook-form';
+type Input = { label: string; name: string; placeholder: string; type: InputType };
 interface Props {
-  input: InputType;
+  input: Input;
   register?: UseFormRegisterReturn;
   error?: string;
   readonly?: boolean;
@@ -16,9 +17,9 @@ const InputField = ({ input, register, error, readonly = false, showLabel = true
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const onTogglePassword = () => setShowPassword((prev) => !prev);
   return (
-    <Field key={input.id} className="gap-2 ">
+    <Field className="gap-2 ">
       {showLabel && (
-        <FieldLabel htmlFor={input.id} className="w-fit text-sm font-medium text-slate-700">
+        <FieldLabel htmlFor={input.name} className="w-fit text-sm font-medium text-slate-700">
           {input.label}
         </FieldLabel>
       )}
@@ -32,7 +33,8 @@ const InputField = ({ input, register, error, readonly = false, showLabel = true
         <InputGroupInput
           readOnly={readonly}
           disabled={readonly}
-          id={input.id}
+          id={input.name}
+          step={'0.01'}
           placeholder={input.placeholder}
           type={input.type === 'password' ? (showPassword ? 'text' : 'password') : input.type}
           className={`text-sm placeholder:text-slate-400 placeholder:select-none rounded-lg ${readonly ? 'bg-gray-100' : 'bg-white'}`}
@@ -49,8 +51,16 @@ const InputField = ({ input, register, error, readonly = false, showLabel = true
             {showPassword ? <EyeOff /> : <Eye />}
           </InputGroupAddon>
         ) : null}
+        {error && (
+          <InputGroupAddon
+            align="inline-end"
+            className={`${buttonVariants({ size: 'sm', variant: 'ghost' })} cursor-pointer hover:bg-transparent! pl-0 m-0`}
+          >
+            <CircleAlert className="text-destructive" />
+          </InputGroupAddon>
+        )}
       </InputGroup>
-      {error && <FieldError>{error}</FieldError>}
+      {error && <FieldError className="text-[13px]">{error}</FieldError>}
     </Field>
   );
 };

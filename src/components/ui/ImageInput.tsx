@@ -13,7 +13,7 @@ interface Props {
   defaultImage?: string;
   setErrors?: Dispatch<SetStateAction<Errors>>;
   showDeleteOption?: boolean;
-  error: string;
+  error?: string;
 }
 const ImageInput = ({ setFile, file, defaultImage, setErrors, showDeleteOption = false, error }: Props) => {
   const [preview, setPreview] = useState<string>();

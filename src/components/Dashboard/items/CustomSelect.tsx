@@ -1,14 +1,6 @@
 import { FieldError } from '@/components/ui/field';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { Category } from '@/interfaces';
 import { useEffect, useState } from 'react';
 
@@ -30,10 +22,11 @@ const CustomSelect = ({ value, onChange, error, categories, isPending }: Props) 
 
     setSelectedCategory(category || '');
   }, [categories, value]);
+
   return (
     <div>
       <Select items={items} value={value} onValueChange={onChange}>
-        <SelectTrigger className={`w-full max-w-60 ${error ? 'border-destructive' : null}`}>
+        <SelectTrigger className={`w-full bg-white max-w-60 ${error ? 'border-destructive' : null}`}>
           <SelectValue className={`${error ? 'text-destructive' : null}`}>
             {selectedCategory || 'Select category...'}
           </SelectValue>

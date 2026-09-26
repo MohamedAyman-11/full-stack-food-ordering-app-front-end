@@ -2,10 +2,10 @@ import MainHeading from '@/components/ui/MainHeading';
 import CategoryList from './CategoryList';
 import SectionWrapper from '@/components/ui/SectionWrapper';
 
-const Categories = () => {
+const Index = () => {
   return (
     <SectionWrapper>
-      <div className="text-center">
+      <div className="text-center mb-10">
         <MainHeading subTitle="Browse your favorites and discover something new." title="Explore Our Categories" />
       </div>
       <CategoryList />
@@ -13,4 +13,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Index;

@@ -1,14 +1,17 @@
-import SectionWrapper from "@/components/ui/SectionWrapper";
-import RegisterForm from "./RegisterForm";
+import RegisterForm from './RegisterForm';
+import AuthHero from '../AuthHero';
 
 const index = () => {
   return (
-    <SectionWrapper>
-      <div className="text-center">
-        <h2 className="text-primary font-bold text-5xl italic">Register</h2>
+    <div className="flex items-center">
+      <AuthHero
+        heading="Join Craveo today"
+        description="Create your account and discover delicious meals delivered right to your doorstep."
+      />
+      <div className="w-full lg:w-1/2">
+        <RegisterForm />
       </div>
-      <RegisterForm />
-    </SectionWrapper>
+    </div>
   );
 };
 

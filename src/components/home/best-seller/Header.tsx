@@ -1,9 +1,5 @@
-import {
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import type { Product } from "@/interfaces";
+import { DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import type { Product } from '@/interfaces';
 
 interface Props {
   data: {
@@ -15,13 +11,9 @@ interface Props {
 const Header = ({ data }: Props) => {
   return (
     <DialogHeader className="text-center mx-auto">
-      <img src={data.url} alt="Photo" className="h-40 mx-auto" />
-      <DialogTitle className="font-semibold text-xl my-3">
-        {data.name}
-      </DialogTitle>
-      <DialogDescription className="text-gray-500 text-sm line-clamp-3 ">
-        {data.description}
-      </DialogDescription>
+      <img src={data.url} alt="Photo" className="h-40 mx-auto rounded-xl" />
+      <DialogTitle className="font-semibold text-xl my-3">{data.name}</DialogTitle>
+      <DialogDescription className="text-gray-500 text-sm line-clamp-3 ">{data.description}</DialogDescription>
     </DialogHeader>
   );
 };

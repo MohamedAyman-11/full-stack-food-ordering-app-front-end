@@ -1,6 +1,7 @@
-import { createCategory } from "@/api/category";
-import { Query_Keys } from "@/constants";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCategory } from '@/api/category';
+import { Messages, Query_Keys } from '@/constants';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const useCreateCategory = () => {
   const client = useQueryClient();
@@ -18,6 +19,7 @@ const useCreateCategory = () => {
           queryKey: [Query_Keys.CATEGORY],
         }),
       ]);
+      toast.success(Messages.CATEGORY_CREATED);
     },
   });
 };

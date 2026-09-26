@@ -1,7 +1,11 @@
-🍕 Pizzas
-🍝 Pasta
-🍟 Sides
-🥤 Drinks
-🍰 Desserts
-🍔 Burgers
-🥗 Salads
+- DELIVERY BOY ORDERS               => DONE
+- UPDATE ORDER STATUS               => DONE
+- INTEGRATION WITH STRIPE           => DONE   
+- ADMIN ORDERS                      => DONE
+- ADMIN DELIVERY BOY                => DONE 
+- BEST SELLER                       => DONE
+- FRAMER MOTION                     => PENDING
+
+
+
+

@@ -9,37 +9,40 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { MoreHorizontalIcon, Pen } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Gmail, Google } from '@thesvg/react';
-import Loading from '../extras/Loading';
+import Loading from '../Loading';
 import useGetUsers from '@/hooks/admin/useGetUsers';
 import type { User } from '@/interfaces';
 import dayjs from '../../../../node_modules/dayjs/esm/index';
 import DeleteUser from './DeleteUser';
 import UpdateUser from './UpdateUser';
+import EmptyState from '@/components/ui/EmptyState';
+import { Info } from 'lucide-react';
 
-const Header = ['User', 'Email', 'Role', 'Provider', 'Joined date', 'Actions'];
+const Header = ['USER', 'EMAIL', 'ROLE', 'PROVIDER', 'JOINED DATE', 'ACTIONS'];
 const CustomersList = () => {
   const { data, isPending } = useGetUsers();
   if (isPending) return <Loading />;
   return (
     <div className="my-5 w-full">
-      <div className="w-full overflow-x-auto rounded-md ">
-        <Table className="min-w-212.5 md:min-w-0">
-          <TableCaption>A list of customers</TableCaption>
-          <TableHeader>
-            <TableRow>
-              {Header.map((el, i) => (
-                <TableHead className={`${el === 'Actions' ? 'text-right' : 'text-left'} font-medium`} key={i}>
-                  {el}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.length > 0 ? (
-              data.map((user: User) => (
+      {data && data.length > 0 ? (
+        <div className="w-full overflow-x-auto rounded-md ">
+          <Table className="min-w-200">
+            <TableCaption>A list of Users</TableCaption>
+            <TableHeader>
+              <TableRow>
+                {Header.map((el, i) => (
+                  <TableHead
+                    className={`${el === 'Actions' ? 'text-right' : 'text-left'} font-semibold text-accent`}
+                    key={i}
+                  >
+                    {el}
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.map((user: User) => (
                 <TableRow key={user.id}>
                   <TableCell className="py-3 px-2 flex items-center mr-5">
                     {user.picture ? (
@@ -78,68 +81,28 @@ const CustomersList = () => {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <h2>No Users Found</h2>
-            )}
-          </TableBody>
-          <TableFooter className="w-full ">
-            <TableRow className="w-full ">
-              <TableCell colSpan={5} className="py-3">
-                Total
-              </TableCell>
-              <TableCell className="text-right py-3">{data.length}</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </div>
+              ))}
+            </TableBody>
+            <TableFooter className="w-full ">
+              <TableRow className="w-full ">
+                <TableCell colSpan={5} className="py-3">
+                  Total
+                </TableCell>
+                <TableCell className="text-right py-3">{data.length}</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
+      ) : (
+        <EmptyState
+          title="No Users found!"
+          description="There are no users to display yet. New users will appear here once they sign up."
+          icon={<Info className="size-6" />}
+          className="mt-10"
+        />
+      )}
     </div>
   );
 };
 
 export default CustomersList;
-
-const users = [
-  {
-    user: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    user: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    user: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    user: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    user: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    user: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    user: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-];

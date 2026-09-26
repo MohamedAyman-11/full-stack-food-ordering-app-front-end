@@ -33,6 +33,8 @@ type State = {
 };
 
 const CustomAccordion = ({ type, data, state, setState, category, isPending }: Props) => {
+  console.log(state);
+
   // Add New
   const onAddNewItemHandler = () => {
     if (!category) {
@@ -48,6 +50,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
   // Update Price
   const onChangePrice = (e: ChangeEvent<HTMLInputElement>, id: string) => {
     const value = e.target.value;
+
     setState((prev) => prev.map((item) => (item.id === id ? { ...item, price: value } : item)));
   };
   // Delete
@@ -65,6 +68,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
           {state.length > 0 && (
             <ul className="mb-3 space-y-3">
               {state.map((el) => {
+                console.log('ROW ID:', el.id);
                 const availableData =
                   data &&
                   data.filter((size) => {
@@ -91,7 +95,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
                       type={type}
                     />
                     <InputGroup
-                      className={` rounded-lg border-slate-200  shadow-none transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10`}
+                      className={` bg-white rounded-lg border-slate-200  shadow-none transition-all focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10`}
                     >
                       <InputGroupInput
                         className={`flex-1 text-sm placeholder:text-slate-400 
@@ -103,6 +107,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
                         value={el.price}
                         onChange={(e) => onChangePrice(e, el.id)}
                         min={0}
+                        step={'0.01'}
                       />
                     </InputGroup>
                     <Button
@@ -119,7 +124,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
             </ul>
           )}
           <LoadingButton
-            isLoading={isPending}
+            isPending={isPending}
             disabled={isPending}
             onClick={onAddNewItemHandler}
             type="button"
@@ -155,7 +160,7 @@ const CustomSelect = ({ data, onChangeSelect, selectedItem, type }: SelectProps)
 
   return (
     <Select value={selectedItem} onValueChange={onChangeSelect}>
-      <SelectTrigger className={`w-full  border-gray-300! min-h-[44px!] py-4!`}>
+      <SelectTrigger className={`w-full bg-white  border-gray-300! min-h-[44px!] py-4!`}>
         <SelectValue>{item?.name || 'Select...'}</SelectValue>
       </SelectTrigger>
       <SelectContent

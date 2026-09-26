@@ -1,6 +1,7 @@
-import { updateCategory } from "@/api/category";
-import { Query_Keys } from "@/constants";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { updateCategory } from '@/api/category';
+import { Messages, Query_Keys } from '@/constants';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 const useUpdateCategory = () => {
   const client = useQueryClient();
@@ -18,6 +19,7 @@ const useUpdateCategory = () => {
           queryKey: [Query_Keys.CATEGORY],
         }),
       ]);
+      toast.success(Messages.CATEGORY_UPDATED);
     },
   });
 };

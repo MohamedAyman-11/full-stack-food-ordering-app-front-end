@@ -1,4 +1,4 @@
-import axiosInstance from '@/lib/axios';
+import { axiosInstance } from '@/lib/axios';
 
 export const getAllCategories = async () => {
   const { data } = await axiosInstance.get('/categories');

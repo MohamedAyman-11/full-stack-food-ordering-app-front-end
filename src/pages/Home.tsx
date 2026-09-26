@@ -1,19 +1,7 @@
-import BestSeller from "@/components/home/best-seller";
-import Categories from "@/components/home/categories";
-import Hero from "@/components/home/hero/index";
-import About from "@/components/ui/about/About";
-import Contact from "@/components/ui/contact/Contact";
+import HomeComponent from '@/components/home/index';
 
 const Home = () => {
-  return (
-    <>
-      <Hero />
-      <Categories />
-      {/* <BestSeller /> */}
-      <About />
-      <Contact />
-    </>
-  );
+  return <HomeComponent />;
 };
 
 export default Home;
