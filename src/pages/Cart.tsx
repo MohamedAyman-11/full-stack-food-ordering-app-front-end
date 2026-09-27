@@ -1,10 +1,13 @@
-import CartComponent from "../components/cart/index";
+import SEO from '@/components/ui/SEO';
+import CartComponent from '../components/cart/index';
+import { seo } from '@/constants';
 
 const Cart = () => {
   return (
-    <div>
+    <>
+      <SEO title={seo.cart.title} description={seo.cart.description} />
       <CartComponent />
-    </div>
+    </>
   );
 };
 

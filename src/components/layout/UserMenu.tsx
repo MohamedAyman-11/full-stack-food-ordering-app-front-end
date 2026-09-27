@@ -100,18 +100,26 @@ const UserMenu = () => {
                 px-1
                 py-2.5
                 mx-0!
-                ${
-                  item.title === 'Admin Panel'
-                    ? `
-                      mt-1.5
-                      bg-amber-50
-                      text-amber-600
-                    `
-                    : `
-                      hover:bg-primary/8!
-                      hover:text-primary
-                    `
-                }
+${
+  item.title === 'Admin Panel'
+    ? `
+      mt-3
+      border border-amber-200
+      bg-gradient-to-r
+      from-amber-50
+      to-orange-50
+      text-amber-700
+      shadow-sm
+      hover:from-amber-100
+      hover:to-orange-100
+      hover:text-amber-800
+      transition-all
+    `
+    : `
+      hover:bg-primary/8!
+      hover:text-primary
+    `
+}
                 `}
                 render={
                   <Link

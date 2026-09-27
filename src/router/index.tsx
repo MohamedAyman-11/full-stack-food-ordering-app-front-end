@@ -34,7 +34,6 @@ import DeliveryProtectedRoute from './DeliveryProtectedRoute';
 import DeliveryAuthProtectedRoute from './DeliveryAuthProtectedRoute';
 import DeliveryOrders from '@/pages/DeliveryOrders';
 import AdminOrders from '@/pages/AdminOrders';
-import DeliveryOrder from '@/pages/DeliveryOrder';
 import UserProtectedRoutes from './UserProtectedRoutes';
 import AdminDeliveryBoys from '@/pages/AdminDeliveryBoys';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
@@ -124,10 +123,6 @@ const Router = () => {
             <Route index element={<DeliveryOrders />} />
 
             <Route path={Pages.ORDERS} element={<DeliveryOrders />} />
-
-            {/* Future */}
-
-            <Route path="orders/:id" element={<DeliveryOrder />} />
           </Route>
         </Route>
       </>,

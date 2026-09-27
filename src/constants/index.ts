@@ -109,3 +109,160 @@ export enum Messages {
   ORDER_DELIVERED = 'Order delivered successfully. 🎉',
   ORDER_CANCELED = 'Order canceled successfully.',
 }
+
+export const seo = {
+  home: {
+    title: 'Home',
+    description: 'Discover delicious burgers, pizza, pasta, desserts, drinks, and more at Craveo.',
+  },
+
+  menu: {
+    title: 'Menu',
+    description: 'Explore the Craveo menu and discover delicious food, drinks, sides, and more.',
+  },
+
+  login: {
+    title: 'Login',
+    description: 'Login to your Craveo account and start ordering your favorite food.',
+  },
+
+  register: {
+    title: 'Create Account',
+    description: 'Create your Craveo account and enjoy a fast and easy food ordering experience.',
+  },
+
+  forgotPassword: {
+    title: 'Forgot Password',
+    description: 'Reset your Craveo account password and regain access to your account.',
+  },
+
+  resetPassword: {
+    title: 'Reset Password',
+    description: 'Create a new password for your Craveo account.',
+  },
+
+  myOrders: {
+    title: 'My Orders',
+    description: 'View and track your Craveo orders.',
+  },
+
+  order: {
+    title: 'Order Details',
+    description: 'View your Craveo order details and track your order status.',
+  },
+
+  cart: {
+    title: 'Shopping Cart',
+    description: 'Review your selected items and manage your Craveo shopping cart.',
+  },
+
+  checkout: {
+    title: 'Checkout',
+    description: 'Complete your order and provide your delivery and payment details.',
+  },
+
+  checkoutSuccess: {
+    title: 'Order Confirmed',
+    description: 'Your Craveo order has been successfully placed.',
+  },
+
+  checkoutCancel: {
+    title: 'Checkout Cancelled',
+    description: 'Your Craveo checkout was cancelled. You can return to your cart and try again.',
+  },
+
+  settings: {
+    changeData: {
+      title: 'Account Settings',
+      description: 'Manage your Craveo account information and personal details.',
+    },
+
+    updatePassword: {
+      title: 'Update Password',
+      description: 'Change your Craveo account password.',
+    },
+  },
+
+  admin: {
+    dashboard: {
+      title: 'Admin Dashboard',
+      description: 'Manage your Craveo store, products, orders, categories, and delivery partners.',
+    },
+
+    products: {
+      title: 'Products',
+      description: 'Manage Craveo products and their information.',
+    },
+
+    createProduct: {
+      title: 'Create Product',
+      description: 'Add a new product to the Craveo menu.',
+    },
+
+    updateProduct: {
+      title: 'Update Product',
+      description: 'Update product information and options in the Craveo menu.',
+    },
+
+    sizes: {
+      title: 'Product Sizes',
+      description: 'Manage product sizes available in the Craveo menu.',
+    },
+
+    extras: {
+      title: 'Product Extras',
+      description: 'Manage additional options and extras available for Craveo products.',
+    },
+
+    categories: {
+      title: 'Categories',
+      description: 'Manage product categories in the Craveo menu.',
+    },
+
+    updateCategory: {
+      title: 'Update Category',
+      description: 'Update category information in the Craveo menu.',
+    },
+
+    deliveryPartners: {
+      title: 'Delivery Partners',
+      description: 'Manage Craveo delivery partners and their accounts.',
+    },
+
+    orders: {
+      title: 'Orders',
+      description: 'Manage and monitor customer orders in Craveo.',
+    },
+
+    users: {
+      title: 'Users',
+      description: 'Manage Craveo customer accounts and user information.',
+    },
+
+    updateUsers: {
+      title: 'Update User',
+      description: 'Update customer account information and user details.',
+    },
+  },
+
+  delivery: {
+    login: {
+      title: 'Delivery Partner Login',
+      description: 'Login to your Craveo delivery partner account.',
+    },
+
+    activeOrders: {
+      title: 'Active Orders',
+      description: 'View and manage your active Craveo delivery orders.',
+    },
+
+    completedOrders: {
+      title: 'Completed Orders',
+      description: 'View your completed Craveo delivery orders.',
+    },
+  },
+  searchResults: {
+    title: 'Search Results',
+    description: 'Find delicious food and drinks from Craveo.',
+  },
+};

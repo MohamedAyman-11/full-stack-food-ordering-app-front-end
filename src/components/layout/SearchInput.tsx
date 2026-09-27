@@ -5,11 +5,13 @@ import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { Field } from '../ui/field';
 import { InputGroup, InputGroupAddon } from '@/components/ui/input-group';
 import { Routes } from '@/constants';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const SearchInput = () => {
+  const [searchParams] = useSearchParams();
+  const inputData = searchParams.get('q') ?? '';
   const navigate = useNavigate();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(inputData);
 
   const trimmedValue = value.trim();
   const canSearch = trimmedValue.length >= 3;

@@ -124,6 +124,7 @@ const CustomAccordion = ({ type, data, state, setState, category, isPending }: P
             </ul>
           )}
           <LoadingButton
+            spinnerColor="text-black"
             isPending={isPending}
             disabled={isPending}
             onClick={onAddNewItemHandler}
