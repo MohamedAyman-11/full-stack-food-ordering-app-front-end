@@ -28,8 +28,8 @@ const OrderDetails = ({ order }: Props) => {
     <div className="bg-card border rounded-xl p-4">
       <h3 className="text-[16px] font-semibold text-primary ">Items ({order.orderItems.length})</h3>
       <div className="my-5 space-y-4">
-        {order.orderItems.map((item) => (
-          <div className="flex items-center justify-between" key={`${item.orderId}-${item.product.id}`}>
+        {order.orderItems.map((item, i) => (
+          <div className="flex items-center justify-between" key={i}>
             <div className="flex items-center gap-3">
               <img src={item.product.image.url} alt={item.product.name} className="h-10 w-12 rounded-xl" />
               <div className="space-y-0.5">
