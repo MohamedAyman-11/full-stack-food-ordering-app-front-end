@@ -1,6 +1,5 @@
-import { Camera, X } from 'lucide-react';
+import { Camera } from 'lucide-react';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
-import { Button } from './button';
 import { FieldError } from './field';
 type Errors = {
   categoryName: string;
@@ -12,10 +11,9 @@ interface Props {
   setFile: (file: File | null) => void;
   defaultImage?: string;
   setErrors?: Dispatch<SetStateAction<Errors>>;
-  showDeleteOption?: boolean;
   error?: string;
 }
-const ImageInput = ({ setFile, file, defaultImage, setErrors, showDeleteOption = false, error }: Props) => {
+const ImageInput = ({ setFile, file, defaultImage, setErrors, error }: Props) => {
   const [preview, setPreview] = useState<string>();
   useEffect(() => {
     if (!file) {
@@ -32,17 +30,6 @@ const ImageInput = ({ setFile, file, defaultImage, setErrors, showDeleteOption =
         className="group w-40 h-40 relative z-30 rounded-full cursor-pointer mx-auto border border-border"
         htmlFor="file-input"
       >
-        {showDeleteOption && preview && (
-          <Button
-            onClick={() => {
-              setPreview('');
-              setFile(null);
-            }}
-            className="absolute top-2 right-1  bg-white text-destructive z-45 rounded-full p-0 size-7 shadow-2xl hover:bg-white/90 cursor-pointer"
-          >
-            <X className="stroke-3" />
-          </Button>
-        )}
         {preview && <img src={preview} alt="Image" className="w-full h-full rounded-full object-contain" />}
         <input
           type="file"

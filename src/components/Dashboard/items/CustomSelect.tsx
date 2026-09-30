@@ -27,7 +27,7 @@ const CustomSelect = ({ value, onChange, error, categories, isPending }: Props) 
     <div>
       <Select items={items} value={value} onValueChange={onChange}>
         <SelectTrigger className={`w-full bg-white max-w-60 ${error ? 'border-destructive' : null}`}>
-          <SelectValue className={`${error ? 'text-destructive' : null}`}>
+          <SelectValue className={`${selectedCategory ? 'text-black' : 'text-accent'}`}>
             {selectedCategory || 'Select category...'}
           </SelectValue>
         </SelectTrigger>

@@ -58,13 +58,14 @@ export const DELIVERY_FEE = 5;
 export const getSubtotal = (cart: CartItem[]): number => {
   return cart.reduce((prev, cur) => {
     const totalPrice = cur.extras?.reduce((prev, cur) => prev + +cur.price, 0);
-    const itemTotal = (totalPrice || 0) + getPriceAfterDiscount(Number(cur.size?.price), cur.discount ?? 0);
+    const itemTotal =
+      (totalPrice || 0) + getPriceAfterDiscount(Number(cur.price), cur.discount ?? 0) + +cur.size!.price;
     return prev + itemTotal * cur.quantity!;
   }, 0);
 };
 
 export const getItemTotalPrice = (item: CartItem): number => {
   const extrasTotal = item.extras?.reduce((prev, cur) => prev + +cur.price, 0) || 0;
-  const itemTotal = extrasTotal + getPriceAfterDiscount(Number(item.size?.price), item.discount);
+  const itemTotal = extrasTotal + getPriceAfterDiscount(Number(item.price), item.discount) + +item.size!.price;
   return itemTotal * item.quantity!;
 };

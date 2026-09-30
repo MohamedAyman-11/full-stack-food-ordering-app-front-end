@@ -28,7 +28,8 @@ const AddToCart = ({ product }: Props) => {
 
   const extrasPrice = selectedExtras.reduce((total, extra) => total + Number(extra.price), 0);
 
-  const price = (extrasPrice + getPriceAfterDiscount(Number(selectedSize.price), Number(product.discount))) * quantity;
+  const basePriceAfterDiscount = getPriceAfterDiscount(Number(product.price), Number(product.discount));
+  const finalPrice = (extrasPrice + basePriceAfterDiscount + Number(selectedSize.price)) * quantity;
 
   const addToCart = () => {
     dispatch(
@@ -39,7 +40,7 @@ const AddToCart = ({ product }: Props) => {
         extras: selectedExtras,
         size: selectedSize,
         quantity,
-        price,
+        price: +product.price,
         discount: Number(product.discount) ?? 0,
       }),
     );
@@ -86,7 +87,7 @@ const AddToCart = ({ product }: Props) => {
             variant="outline"
             className={`${buttonVariants({ size: 'lg' })} text-white! px-8! cursor-pointer! py-5 w-full`}
           >
-            Add to cart ({formatCurrency(price)})
+            Add to cart ({formatCurrency(finalPrice)})
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import type { Size } from '@/interfaces';
-import { formatCurrency, getPriceAfterDiscount } from '@/lib/functions';
+import { formatCurrency } from '@/lib/functions';
 import type { Dispatch, SetStateAction } from 'react';
 interface Props {
   sizes: Size[];
@@ -9,7 +9,7 @@ interface Props {
   selectedSize: Size | undefined;
   discount: number;
 }
-const ItemSizes = ({ sizes, setSelectedSize, selectedSize, discount }: Props) => {
+const ItemSizes = ({ sizes, setSelectedSize, selectedSize }: Props) => {
   return (
     <>
       <div>
@@ -25,16 +25,14 @@ const ItemSizes = ({ sizes, setSelectedSize, selectedSize, discount }: Props) =>
           }}
         >
           {sizes.map((size) => (
-            <div className="flex items-center gap-3 border w-full py-2 px-2 rounded-md" key={size.size.id}>
+            <div className="flex items-center gap-3 border w-full py-1.5 px-2 rounded-md" key={size.size.id}>
               <RadioGroupItem value={size.size.id} id={size.size.id} className={'cursor-pointer'} />
               <Label htmlFor={size.size.id} className="font-semibold text-accent flex-1 cursor-pointer">
-                {size.size.name}{' '}
-                <span className="text-gray-500">
-                  ({formatCurrency(getPriceAfterDiscount(Number(size.price), discount))})
+                {size.size.name}
+                <span className="text-gray-500 text-sm">
+                  <span className="font-bold text-base">+</span>
+                  {formatCurrency(Number(size.price))}
                 </span>
-                {discount > 0 && (
-                  <span className="ml-px text-sm text-gray-400 line-through">{formatCurrency(Number(size.price))}</span>
-                )}
               </Label>
             </div>
           ))}

@@ -30,14 +30,13 @@ const SubmitOrder = ({ address, paymentMethod }: Props) => {
     try {
       const products = cart.map((el) => ({
         productId: el.id,
-        unitPrice: Number(el.size?.price),
+        unitPrice: Number(el.price),
         discount: el.discount ?? 0,
         quantity: Number(el.quantity),
         sizeId: el.size?.size.id!,
         extras:
           el?.extras?.map((extra) => ({
             id: extra.extra.id,
-            price: Number(extra.price),
           })) ?? [],
       }));
 

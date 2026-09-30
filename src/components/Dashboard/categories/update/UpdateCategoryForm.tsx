@@ -1,11 +1,8 @@
 import { Button, buttonVariants } from '@/components/ui/button';
 import LoadingButton from '@/components/ui/LoadingButton';
-import CustomAccordion from '../CustomAccordion';
 import ImageInput from '@/components/ui/ImageInput';
-import useGetExtras from '@/hooks/extras/useGetExtra';
-import useGetSizes from '@/hooks/sizes/useGetSizes';
-import { useEffect, useState } from 'react';
-import type { Extra, InputType, Size } from '@/interfaces';
+import { useEffect } from 'react';
+import type { InputType } from '@/interfaces';
 import useGetCategory from '@/hooks/categories/useGetCategory';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../../Loading';
@@ -38,11 +35,6 @@ const FORM_INPUTS: Input[] = [
   },
 ];
 
-type State = {
-  id: string;
-  itemId: string;
-};
-
 const UpdateCategoryForm = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -50,10 +42,6 @@ const UpdateCategoryForm = () => {
 
   const id = params.id ?? '';
   const { data: category, isPending } = useGetCategory(id);
-  const { data: sizes } = useGetSizes();
-  const { data: extras } = useGetExtras();
-  const [categorySizes, setCategorySizes] = useState<State[]>([]);
-  const [categoryExtras, setCategoryExtras] = useState<State[]>([]);
 
   const {
     register,
@@ -79,16 +67,6 @@ const UpdateCategoryForm = () => {
       const formData = new FormData();
       formData.append('name', data.category_name);
 
-      if (categorySizes.length > 0) {
-        const filteredSizes = categorySizes.filter((item) => item.itemId);
-        formData.append('sizeIds', JSON.stringify(filteredSizes.map((el) => el.itemId)));
-      }
-
-      if (categoryExtras.length > 0) {
-        const filteredExtras = categoryExtras.filter((item) => item.itemId);
-        formData.append('extraIds', JSON.stringify(filteredExtras.map((el) => el.itemId)));
-      }
-
       if (file) {
         formData.append('category_image', file);
       }
@@ -97,8 +75,6 @@ const UpdateCategoryForm = () => {
 
       navigate(`/${Routes.ADMIN}/${Pages.CATEGORIES}`, { replace: true });
 
-      setCategoryExtras([]);
-      setCategorySizes([]);
       reset({ category_name: '', image: undefined });
     } catch (error) {
       toast.error(axiosErrorHandler(error));
@@ -111,25 +87,9 @@ const UpdateCategoryForm = () => {
     reset({
       category_name: category.name,
     });
-
-    setCategorySizes(
-      category.categorySizes.map((size: Size) => ({
-        id: crypto.randomUUID(),
-        itemId: size.size.id,
-      })),
-    );
-
-    setCategoryExtras(
-      category.categoryExtras.map((extra: Extra) => ({
-        id: crypto.randomUUID(),
-        itemId: extra.extra.id,
-      })),
-    );
   }, [category, id]);
 
   const onCancel = () => {
-    setCategoryExtras([]);
-    setCategorySizes([]);
     reset({
       category_name: '',
       image: undefined,
@@ -164,14 +124,6 @@ const UpdateCategoryForm = () => {
                 error={errors[input.name]?.message}
               />
             ))}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-5">
-              <div>
-                <CustomAccordion data={sizes} type="size" state={categorySizes} setState={setCategorySizes} />
-              </div>
-              <div>
-                <CustomAccordion data={extras} type="extra" state={categoryExtras} setState={setCategoryExtras} />
-              </div>
-            </div>
           </div>
         </div>
         <div className="flex items-center gap-5">

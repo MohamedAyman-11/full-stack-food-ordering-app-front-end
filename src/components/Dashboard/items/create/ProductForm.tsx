@@ -14,13 +14,14 @@ import CustomSelect from '../CustomSelect';
 import { ProductSchema, type ProductSchemaInput, type ProductSchemaOutput } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useGetCategories from '@/hooks/categories/useGetCategories';
-import useGetCategoryOptions from '@/hooks/categories/useGetCategoryOptions';
 import useCreateProduct from '@/hooks/products/useCreateProduct';
 import toast from 'react-hot-toast';
 import { axiosErrorHandler } from '@/lib/functions';
 import { useNavigate } from 'react-router-dom';
 import { Pages, Routes } from '@/constants';
 import type { ProductFieldName } from '@/types/inputs';
+import useGetSizes from '@/hooks/sizes/useGetSizes';
+import useGetExtras from '@/hooks/extras/useGetExtra';
 
 type Input = {
   name: ProductFieldName;
@@ -43,10 +44,10 @@ const FORM_INPUTS: Input[] = [
     type: 'text',
   },
   {
+    type: 'number',
     label: 'Price',
     name: 'price',
-    placeholder: 'Price',
-    type: 'number',
+    placeholder: 'Base price',
   },
   {
     type: 'number',
@@ -64,7 +65,9 @@ type State = {
 
 const ProductForm = () => {
   const navigate = useNavigate();
+
   const { mutateAsync, isPending: isCreating } = useCreateProduct();
+
   const {
     register,
     handleSubmit,
@@ -81,10 +84,13 @@ const ProductForm = () => {
       category: '',
     },
   });
-  const categoryId = watch('category');
+
   const file = watch('image');
+
   const { data: categories, isPending } = useGetCategories();
-  const { data: options, isLoading } = useGetCategoryOptions(categoryId);
+  const { data: sizesData, isLoading: isGettingSizes } = useGetSizes();
+  const { data: extrasData, isLoading: isGettingExtras } = useGetExtras();
+
   const [isAvailable, setIsAvailable] = useState<boolean>(true);
   const [productSizes, setProductSizes] = useState<State[]>([]);
   const [productExtras, setProductExtras] = useState<State[]>([]);
@@ -92,15 +98,16 @@ const ProductForm = () => {
   const [extras, setExtras] = useState([]);
 
   const onSubmit: SubmitHandler<ProductSchemaOutput> = async ({
+    price,
     category,
     description,
     discount,
     image,
     name,
-    price,
   }) => {
     try {
       const formData = new FormData();
+
       formData.append('product_image', image);
       formData.append('name', name);
       formData.append('description', description);
@@ -111,19 +118,37 @@ const ProductForm = () => {
 
       if (productSizes.length > 0) {
         const filteredSizes = productSizes.filter((item) => item.itemId && item.price);
-        formData.append('sizes', JSON.stringify(filteredSizes.map((size) => ({ id: size.itemId, price: size.price }))));
+
+        formData.append(
+          'sizes',
+          JSON.stringify(
+            filteredSizes.map((size) => ({
+              id: size.itemId,
+              price: size.price,
+            })),
+          ),
+        );
       }
 
       if (productExtras.length > 0) {
         const filteredExtras = productExtras.filter((item) => item.itemId && item.price);
+
         formData.append(
           'extras',
-          JSON.stringify(filteredExtras.map((extra) => ({ id: extra.itemId, price: extra.price }))),
+          JSON.stringify(
+            filteredExtras.map((extra) => ({
+              id: extra.itemId,
+              price: extra.price,
+            })),
+          ),
         );
       }
 
       await mutateAsync(formData);
-      navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, { replace: true });
+
+      navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, {
+        replace: true,
+      });
     } catch (error) {
       toast.error(axiosErrorHandler(error));
     }
@@ -133,16 +158,23 @@ const ProductForm = () => {
     setProductExtras([]);
     setProductSizes([]);
     reset();
-    navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, { replace: true });
+
+    navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, {
+      replace: true,
+    });
   };
 
   useEffect(() => {
-    if (!options) return;
-    const sizes = options.sizes.map((item: { size: { name: string; id: string } }) => item.size);
-    setSizes(sizes);
-    const extras = options.extras.map((item: { extra: { name: string; id: string } }) => item.extra);
-    setExtras(extras);
-  }, [options]);
+    if (!sizesData) return;
+
+    setSizes(sizesData);
+  }, [sizesData]);
+
+  useEffect(() => {
+    if (!extrasData) return;
+
+    setExtras(extrasData);
+  }, [extrasData]);
 
   return (
     <div className="w-full mt-5 animate-in fade-in-20 slide-in-from-bottom-2 duration-300">
@@ -172,7 +204,7 @@ const ProductForm = () => {
               </div>
             ))}
 
-            <div className=" grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {FORM_INPUTS.slice(2, 4).map((input) => (
                 <InputField
                   input={input}
@@ -182,7 +214,6 @@ const ProductForm = () => {
                 />
               ))}
             </div>
-
             <Controller
               name="category"
               control={control}
@@ -203,22 +234,21 @@ const ProductForm = () => {
               )}
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-3">
               <CustomAccordion
                 state={productSizes}
                 setState={setProductSizes}
                 type="size"
                 data={sizes}
-                category={categoryId}
-                isPending={isLoading}
+                isPending={isGettingSizes}
               />
+
               <CustomAccordion
                 state={productExtras}
                 setState={setProductExtras}
                 type="extra"
                 data={extras}
-                category={categoryId}
-                isPending={isLoading}
+                isPending={isGettingExtras}
               />
             </div>
 
@@ -227,8 +257,9 @@ const ProductForm = () => {
               className="flex extras-center gap-2 cursor-pointer"
               onClick={() => setIsAvailable((prev) => !prev)}
             >
-              <Checkbox id={'role'} name={'role'} checked={isAvailable} />
-              <FieldLabel htmlFor={'role'} className="font-semibold text-accent flex-1 cursor-pointer">
+              <Checkbox id="role" name="role" checked={isAvailable} />
+
+              <FieldLabel htmlFor="role" className="font-semibold text-accent flex-1 cursor-pointer">
                 Available
               </FieldLabel>
             </Field>
@@ -242,12 +273,13 @@ const ProductForm = () => {
             variant="outline"
             className={`${buttonVariants({
               size: 'lg',
-            })}  h-10! md:h-11! flex-1 rounded-lg border-0! bg-gray-200! px-8! py-4! font-semibold! 
-                     text-black!  shadow-sm transition-all hover:bg-gray-200/90!
-                      hover:shadow-md! cursor-pointer!`}
+            })} h-10! md:h-11! flex-1 rounded-lg border-0! bg-gray-200! px-8! py-4! font-semibold!
+              text-black! shadow-sm transition-all hover:bg-gray-200/90!
+              hover:shadow-md! cursor-pointer!`}
           >
             Cancel
           </Button>
+
           <LoadingButton
             isPending={isCreating}
             disabled={isCreating}
@@ -255,9 +287,9 @@ const ProductForm = () => {
             variant="outline"
             className={`${buttonVariants({
               size: 'lg',
-            })}  h-10! md:h-11! flex-1  rounded-lg border-0! bg-primary! px-8!
-                     py-4! font-semibold! text-white! shadow-sm transition-all hover:bg-primary/90!
-                      hover:shadow-md! cursor-pointer!`}
+            })} h-10! md:h-11! flex-1 rounded-lg border-0! bg-primary! px-8!
+              py-4! font-semibold! text-white! shadow-sm transition-all hover:bg-primary/90!
+              hover:shadow-md! cursor-pointer!`}
           >
             Create product
           </LoadingButton>

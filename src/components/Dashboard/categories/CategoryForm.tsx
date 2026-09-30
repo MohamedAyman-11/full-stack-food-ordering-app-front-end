@@ -1,9 +1,5 @@
 import ImageInput from '@/components/ui/ImageInput';
 import type { InputType } from '@/interfaces';
-import { useState } from 'react';
-import CustomAccordion from './CustomAccordion';
-import useGetSizes from '@/hooks/sizes/useGetSizes';
-import useGetExtras from '@/hooks/extras/useGetExtra';
 import LoadingButton from '@/components/ui/LoadingButton';
 import { Button, buttonVariants } from '@/components/ui/button';
 import useCreateCategory from '@/hooks/categories/useCreateCategory';
@@ -29,22 +25,13 @@ const FORM_INPUTS: Input[] = [
   },
 ];
 
-type State = {
-  id: string;
-  itemId: string;
-};
-
 interface Props {
   showForm: boolean;
   setShowForm: (val: boolean) => void;
 }
+
 const CategoryForm = ({ showForm, setShowForm }: Props) => {
   const { mutateAsync, isPending } = useCreateCategory();
-  const { data: sizes } = useGetSizes();
-  const { data: extras } = useGetExtras();
-  const [categorySizes, setCategorySizes] = useState<State[]>([]);
-  const [categoryExtras, setCategoryExtras] = useState<State[]>([]);
-
   const {
     register,
     handleSubmit,
@@ -67,23 +54,12 @@ const CategoryForm = ({ showForm, setShowForm }: Props) => {
       const formData = new FormData();
       formData.append('name', data.category_name);
 
-      if (categorySizes.length > 0) {
-        const filteredSizes = categorySizes.filter((item) => item.itemId);
-        formData.append('sizeIds', JSON.stringify(filteredSizes.map((el) => el.itemId)));
-      }
-
-      if (categoryExtras.length > 0) {
-        const filteredExtras = categoryExtras.filter((item) => item.itemId);
-        formData.append('extraIds', JSON.stringify(filteredExtras.map((el) => el.itemId)));
-      }
-
       formData.append('category_image', file!);
 
       await mutateAsync(formData);
 
       setShowForm(false);
-      setCategoryExtras([]);
-      setCategorySizes([]);
+
       reset({
         category_name: '',
         image: undefined,
@@ -95,8 +71,6 @@ const CategoryForm = ({ showForm, setShowForm }: Props) => {
 
   const onCancel = () => {
     setShowForm && setShowForm(false);
-    setCategoryExtras([]);
-    setCategorySizes([]);
     reset({
       category_name: '',
       image: undefined,
@@ -132,14 +106,6 @@ const CategoryForm = ({ showForm, setShowForm }: Props) => {
                   error={errors[input.name]?.message}
                 />
               ))}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-5">
-                <div>
-                  <CustomAccordion data={sizes} type="size" state={categorySizes} setState={setCategorySizes} />
-                </div>
-                <div>
-                  <CustomAccordion data={extras} type="extra" state={categoryExtras} setState={setCategoryExtras} />
-                </div>
-              </div>
             </div>
           </div>
 

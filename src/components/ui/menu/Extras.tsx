@@ -1,8 +1,8 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import type { Extra } from "@/interfaces";
-import { formatCurrency } from "@/lib/functions";
-import type { Dispatch, SetStateAction } from "react";
+import { Checkbox } from '@/components/ui/checkbox';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import type { Extra } from '@/interfaces';
+import { formatCurrency } from '@/lib/functions';
+import type { Dispatch, SetStateAction } from 'react';
 interface Props {
   extras: Extra[];
   setSelectedExtras: Dispatch<SetStateAction<Extra[]>>;
@@ -11,9 +11,7 @@ interface Props {
 const Extras = ({ extras, selectedExtras, setSelectedExtras }: Props) => {
   const handleCheckbox = (extra: Extra) => {
     if (selectedExtras?.find((item) => item.extra.id === extra.extra.id)) {
-      const filteredExtras = selectedExtras.filter(
-        (item) => item.extra.id !== extra.extra.id,
-      );
+      const filteredExtras = selectedExtras.filter((item) => item.extra.id !== extra.extra.id);
       setSelectedExtras(filteredExtras);
     } else {
       setSelectedExtras((prev) => [...prev, extra]);
@@ -33,17 +31,15 @@ const Extras = ({ extras, selectedExtras, setSelectedExtras }: Props) => {
             <Checkbox
               id={extra.extra.id}
               name={extra.extra.id}
-              checked={Boolean(
-                selectedExtras?.find(
-                  (item) => item.extra.id === extra.extra.id,
-                ),
-              )}
+              checked={Boolean(selectedExtras?.find((item) => item.extra.id === extra.extra.id))}
             />
-            <FieldLabel
-              htmlFor={extra.extra.id}
-              className="font-semibold text-accent flex-1 cursor-pointer"
-            >
-              {extra.extra.name} ({formatCurrency(Number(extra.price))})
+            <FieldLabel htmlFor={extra.extra.id} className="font-semibold text-accent flex-1 cursor-pointer">
+              {extra.extra.name}
+
+              <span className="text-gray-500 text-sm">
+                <span className="font-bold text-base">+</span>
+                {formatCurrency(Number(extra.price))}
+              </span>
             </FieldLabel>
           </Field>
         ))}

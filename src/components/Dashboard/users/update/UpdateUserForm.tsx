@@ -8,6 +8,7 @@ import { Pages, Routes } from '@/constants';
 import useUpdateUserData from '@/hooks/admin/useUpdateUserData';
 import type { InputType, User } from '@/interfaces';
 import { axiosErrorHandler } from '@/lib/functions';
+import type { AccountDetailsFieldName } from '@/types/inputs';
 import { accountDetailsSchema, type AccountDetailsSchemaType } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -15,65 +16,62 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-const FORM_INPUTS: InputType[] = [
+interface UpdatedUser {
+  label: string;
+  name: AccountDetailsFieldName;
+  placeholder: string;
+  type: InputType;
+}
+const FORM_INPUTS: UpdatedUser[] = [
   {
-    id: crypto.randomUUID(),
     label: 'First name',
     name: 'first_name',
     placeholder: 'First name',
     type: 'text',
   },
   {
-    id: crypto.randomUUID(),
     label: 'Last name',
     name: 'last_name',
     placeholder: 'Last name',
     type: 'text',
   },
   {
-    id: crypto.randomUUID(),
     label: 'Email',
     name: 'email',
     placeholder: 'Email address',
     type: 'email',
   },
   {
-    id: crypto.randomUUID(),
     type: 'tel',
     label: 'Primary phone',
     name: 'primary_phone',
     placeholder: 'Primary phone',
   },
   {
-    id: crypto.randomUUID(),
     type: 'tel',
     label: 'Secondary phone',
     name: 'secondary_phone',
     placeholder: 'Secondary phone ',
   },
   {
-    id: crypto.randomUUID(),
     type: 'text',
     label: 'Street',
     name: 'street',
     placeholder: 'Street',
   },
   {
-    id: crypto.randomUUID(),
-    type: 'string',
+    type: 'text',
     label: 'Postal Code',
     name: 'postal_code',
     placeholder: 'Postal code',
   },
   {
-    id: crypto.randomUUID(),
     type: 'text',
     label: 'City',
     name: 'city',
     placeholder: 'City',
   },
   {
-    id: crypto.randomUUID(),
     type: 'text',
     label: 'Country',
     name: 'country',
@@ -147,13 +145,13 @@ const UpdateUserForm = ({ user }: Props) => {
     <div className="w-full mt-5 mb-7 animate-in fade-in-20 slide-in-from-bottom-4 duration-600">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col lg:items-start lg:flex-row gap-6 w-full">
-          <ImageInput showDeleteOption={true} file={file} setFile={setFile} defaultImage={user.picture?.url} />
+          <ImageInput file={file} setFile={setFile} defaultImage={user.picture?.url} />
           <div className="flex-1 space-y-5">
             <div className="name grid grid-cols-1 sm:grid-cols-2 gap-3">
               {FORM_INPUTS.slice(0, 2).map((input) => (
                 <InputField
                   input={input}
-                  key={input.id}
+                  key={input.name}
                   register={register(input.name as keyof AccountDetailsSchemaType)}
                   error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />
@@ -164,7 +162,7 @@ const UpdateUserForm = ({ user }: Props) => {
                 <InputField
                   readonly={true}
                   input={input}
-                  key={input.id}
+                  key={input.name}
                   register={register(input.name as keyof AccountDetailsSchemaType)}
                   error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />
@@ -174,7 +172,7 @@ const UpdateUserForm = ({ user }: Props) => {
               {FORM_INPUTS.slice(3).map((input) => (
                 <InputField
                   input={input}
-                  key={input.id}
+                  key={input.name}
                   register={register(input.name as keyof AccountDetailsSchemaType)}
                   error={errors[input?.name as keyof AccountDetailsSchemaType]?.message?.toString()}
                 />

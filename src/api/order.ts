@@ -9,7 +9,6 @@ type OrderProduct = {
   discount: number;
   extras: {
     id: string;
-    price: number;
   }[];
 };
 type OrderData = {

@@ -14,7 +14,6 @@ import CustomSelect from '../CustomSelect';
 import { ProductSchemaUpdate, type ProductSchemaUpdateInput, type ProductSchemaUpdateOutput } from '@/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useGetCategories from '@/hooks/categories/useGetCategories';
-import useGetCategoryOptions from '@/hooks/categories/useGetCategoryOptions';
 import toast from 'react-hot-toast';
 import { axiosErrorHandler } from '@/lib/functions';
 import { useGetProductUpdate } from '@/hooks/products/useGetProduct';
@@ -23,6 +22,8 @@ import Loading from '../../Loading';
 import useUpdateProduct from '@/hooks/products/useUpdateProduct';
 import { Pages, Routes } from '@/constants';
 import type { ProductFieldName } from '@/types/inputs';
+import useGetSizes from '@/hooks/sizes/useGetSizes';
+import useGetExtras from '@/hooks/extras/useGetExtra';
 
 type Input = {
   name: ProductFieldName;
@@ -45,10 +46,10 @@ const FORM_INPUTS: Input[] = [
     type: 'text',
   },
   {
+    type: 'number',
     label: 'Price',
     name: 'price',
-    placeholder: 'Price',
-    type: 'number',
+    placeholder: 'Base price',
   },
   {
     type: 'number',
@@ -86,10 +87,10 @@ const UpdateProductForm = () => {
       category: '',
     },
   });
-  const categoryId = watch('category');
   const file = watch('image');
   const { data: categories, isPending } = useGetCategories();
-  const { data: options, isLoading } = useGetCategoryOptions(categoryId);
+  const { data: sizesData, isLoading: isGettingSizes } = useGetSizes();
+  const { data: extrasData, isLoading: isGettingExtras } = useGetExtras();
 
   const [productSizes, setProductSizes] = useState<State[]>([]);
   const [productExtras, setProductExtras] = useState<State[]>([]);
@@ -143,18 +144,21 @@ const UpdateProductForm = () => {
       description: '',
       category: '',
       discount: '',
-      price: '',
     });
     navigate(`/${Routes.ADMIN}/${Pages.ITEMS}`, { replace: true });
   };
 
   useEffect(() => {
-    if (!options) return;
-    const sizes = options.sizes.map((item: { size: { name: string; id: string } }) => item.size);
-    setSizes(sizes);
-    const extras = options.extras.map((item: { extra: { name: string; id: string } }) => item.extra);
-    setExtras(extras);
-  }, [options]);
+    if (!sizesData) return;
+
+    setSizes(sizesData);
+  }, [sizesData]);
+
+  useEffect(() => {
+    if (!extrasData) return;
+
+    setExtras(extrasData);
+  }, [extrasData]);
 
   useEffect(() => {
     if (!product) return;
@@ -220,27 +224,26 @@ const UpdateProductForm = () => {
                   error={errors[input.name]?.message}
                 />
               ))}
+              <Controller
+                name="category"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field className="gap-2">
+                    <FieldLabel htmlFor="category" className="w-fit text-sm font-medium text-slate-700">
+                      Category
+                    </FieldLabel>
+
+                    <CustomSelect
+                      isPending={isPending}
+                      value={field.value}
+                      onChange={field.onChange}
+                      error={fieldState.error?.message}
+                      categories={categories}
+                    />
+                  </Field>
+                )}
+              />
             </div>
-
-            <Controller
-              name="category"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Field className="gap-2">
-                  <FieldLabel htmlFor="category" className="w-fit text-sm font-medium text-slate-700">
-                    Category
-                  </FieldLabel>
-
-                  <CustomSelect
-                    isPending={isPending}
-                    value={field.value}
-                    onChange={field.onChange}
-                    error={fieldState.error?.message}
-                    categories={categories}
-                  />
-                </Field>
-              )}
-            />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3">
               <CustomAccordion
@@ -248,16 +251,14 @@ const UpdateProductForm = () => {
                 setState={setProductSizes}
                 type="size"
                 data={sizes}
-                category={categoryId}
-                isPending={isLoading}
+                isPending={isGettingSizes}
               />
               <CustomAccordion
                 state={productExtras}
                 setState={setProductExtras}
                 type="extra"
                 data={extras}
-                category={categoryId}
-                isPending={isLoading}
+                isPending={isGettingExtras}
               />
             </div>
 

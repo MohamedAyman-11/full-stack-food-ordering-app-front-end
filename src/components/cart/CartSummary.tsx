@@ -7,17 +7,19 @@ import { ArrowRight } from 'lucide-react';
 import useGetCurrentUser from '@/hooks/auth/useGetCurrentUser';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { Pages } from '@/constants';
+import { Pages, Routes } from '@/constants';
 
 const CartSummary = () => {
   const navigate = useNavigate();
   const cart = useAppSelector(getCartItems);
-  const subTotal = getSubtotal(cart);
+  const subTotal = Math.ceil(getSubtotal(cart));
   const { data: user } = useGetCurrentUser();
 
   const onClickHandler = () => {
     if (!user) {
       toast.error('You are not logged in! please login first to continue');
+      navigate(`/${Routes.AUTH}/${Pages.LOGIN}`);
+      return;
     }
     navigate(`/${Pages.CHECKOUT}`);
   };

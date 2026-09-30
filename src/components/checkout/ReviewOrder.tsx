@@ -1,6 +1,6 @@
 import { getCartItems } from '@/app/features/cart/cart';
 import { useAppSelector } from '@/app/hooks';
-import React, { Fragment, type ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { getItemTotalPrice } from '@/lib/cart';
 import { formatCurrency } from '@/lib/functions';
 import { Check, Truck } from 'lucide-react';
@@ -39,9 +39,12 @@ const ReviewOrder = ({ address, children }: Props) => {
                   <h4 className="text-primary text-sm font-medium">
                     {item.name} ({item.size?.size.name})
                   </h4>
-                  <span className="text-neutral-500 text-sm block">
-                    Extras:{item.extras?.map((extra) => extra.extra.name).join(', ')}
-                  </span>
+                  {item.extras && item.extras?.length > 0 && (
+                    <span className="text-neutral-500 text-sm block">
+                      Extras:{item.extras?.map((extra) => extra.extra.name).join(', ')}
+                    </span>
+                  )}
+                  <span className="text-neutral-500 text-sm block">Size: {item.size!.size.name}</span>
                   <span className="text-neutral-500 text-sm">Qty:{item.quantity}</span>
                 </div>
               </div>
