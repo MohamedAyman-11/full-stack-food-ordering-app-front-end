@@ -38,6 +38,7 @@ import UserProtectedRoutes from './UserProtectedRoutes';
 import AdminDeliveryBoys from '@/pages/AdminDeliveryBoys';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
+import NotFound from '@/pages/NotFound';
 
 const Router = () => {
   const router = createBrowserRouter(
@@ -125,6 +126,7 @@ const Router = () => {
             <Route path={Pages.ORDERS} element={<DeliveryOrders />} />
           </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </>,
     ),
   );
