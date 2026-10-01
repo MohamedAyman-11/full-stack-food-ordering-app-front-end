@@ -265,4 +265,8 @@ export const seo = {
     title: 'Search Results',
     description: 'Find delicious food and drinks from Craveo.',
   },
+  pageNotFound: {
+    title: 'Page Not Found',
+    description: `The page you're looking for doesn't exist or may have been moved. Explore Craveo and discover delicious food delivered to your door.`,
+  },
 };
